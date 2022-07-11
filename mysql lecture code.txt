@@ -1,0 +1,215 @@
+
+Setting environment for using XAMPP for Windows.
+Admin@DESKTOP-2 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 8
+Server version: 10.4.24-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show database;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'database' at line 1
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| advantech          |
+| db_college         |
+| db_school          |
+| dev                |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| school             |
+| test               |
++--------------------+
+10 rows in set (0.112 sec)
+
+MariaDB [(none)]> create database vivaclg;
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| advantech          |
+| db_college         |
+| db_school          |
+| dev                |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| school             |
+| test               |
+| vivaclg            |
++--------------------+
+11 rows in set (0.001 sec)
+
+MariaDB [(none)]> show tables;
+ERROR 1046 (3D000): No database selected
+MariaDB [(none)]> use vivaclg;
+Database changed
+MariaDB [vivaclg]> show tables;\
+Empty set (0.001 sec)
+
+MariaDB [vivaclg]> show tables;
+Empty set (0.001 sec)
+
+MariaDB [vivaclg]> create table student
+    -> (
+    -> id int
+    -> ,name varchar(25),
+    -> age int
+    -> );
+Query OK, 0 rows affected (0.177 sec)
+
+MariaDB [vivaclg]> show tables;
++-------------------+
+| Tables_in_vivaclg |
++-------------------+
+| student           |
++-------------------+
+1 row in set (0.001 sec)
+
+MariaDB [vivaclg]> show tables;
++-------------------+
+| Tables_in_vivaclg |
++-------------------+
+| student           |
++-------------------+
+1 row in set (0.001 sec)
+
+MariaDB [vivaclg]> desc student;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int(11)     | YES  |     | NULL    |       |
+| name  | varchar(25) | YES  |     | NULL    |       |
+| age   | int(11)     | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.041 sec)
+
+MariaDB [vivaclg]> select * from student;
+Empty set (0.131 sec)
+
+MariaDB [vivaclg]> insert into student
+    -> values
+    -> (111,'tom',12);
+Query OK, 1 row affected (0.083 sec)
+
+MariaDB [vivaclg]> select * from student;
++------+------+------+
+| id   | name | age  |
++------+------+------+
+|  111 | tom  |   12 |
++------+------+------+
+1 row in set (0.000 sec)
+
+MariaDB [vivaclg]> select * from student;
++------+------+------+
+| id   | name | age  |
++------+------+------+
+|  111 | tom  |   12 |
++------+------+------+
+1 row in set (0.000 sec)
+
+MariaDB [vivaclg]> select * from student;
++------+------+------+
+| id   | name | age  |
++------+------+------+
+|  111 | tom  |   12 |
++------+------+------+
+1 row in set (0.000 sec)
+
+MariaDB [vivaclg]> insert into student
+    -> values
+    -> (112,'jerry',18);
+Query OK, 1 row affected (0.047 sec)
+
+MariaDB [vivaclg]> select * from student;
++------+-------+------+
+| id   | name  | age  |
++------+-------+------+
+|  111 | tom   |   12 |
+|  112 | jerry |   18 |
++------+-------+------+
+2 rows in set (0.000 sec)
+
+MariaDB [vivaclg]> update student set age=15 where id=111;
+Query OK, 1 row affected (0.062 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [vivaclg]> select * from student;
++------+-------+------+
+| id   | name  | age  |
++------+-------+------+
+|  111 | tom   |   15 |
+|  112 | jerry |   18 |
++------+-------+------+
+2 rows in set (0.000 sec)
+
+MariaDB [vivaclg]> update student set age=16,name='bhavik' where id=112;
+Query OK, 1 row affected (0.050 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [vivaclg]> select * from student;
++------+--------+------+
+| id   | name   | age  |
++------+--------+------+
+|  111 | tom    |   15 |
+|  112 | bhavik |   16 |
++------+--------+------+
+2 rows in set (0.000 sec)
+
+MariaDB [vivaclg]> delete from student where id=111;
+Query OK, 1 row affected (0.045 sec)
+
+MariaDB [vivaclg]> select * from student;
++------+--------+------+
+| id   | name   | age  |
++------+--------+------+
+|  112 | bhavik |   16 |
++------+--------+------+
+1 row in set (0.000 sec)
+
+MariaDB [vivaclg]> delete from student;
+Query OK, 1 row affected (0.047 sec)
+
+MariaDB [vivaclg]> select * from student;
+Empty set (0.000 sec)
+
+MariaDB [vivaclg]> drop table student;
+Query OK, 0 rows affected (0.216 sec)
+
+MariaDB [vivaclg]> select * from student;
+ERROR 1146 (42S02): Table 'vivaclg.student' doesn't exist
+MariaDB [vivaclg]> show tables;
+Empty set (0.001 sec)
+
+MariaDB [vivaclg]> drop database vivaclg;
+Query OK, 0 rows affected (0.073 sec)
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| advantech          |
+| db_college         |
+| db_school          |
+| dev                |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| school             |
+| test               |
++--------------------+
+10 rows in set (0.001 sec)
+
+MariaDB [(none)]>
