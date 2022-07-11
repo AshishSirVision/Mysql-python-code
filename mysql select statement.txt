@@ -1,0 +1,417 @@
+
+Setting environment for using XAMPP for Windows.
+Admin@DESKTOP-2 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 9
+Server version: 10.4.24-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| advantech          |
+| db_college         |
+| db_school          |
+| dev                |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| school             |
+| test               |
++--------------------+
+10 rows in set (0.001 sec)
+
+MariaDB [(none)]> create data monday;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'data monday' at line 1
+MariaDB [(none)]> create database monday;
+Query OK, 1 row affected (0.014 sec)
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| advantech          |
+| db_college         |
+| db_school          |
+| dev                |
+| information_schema |
+| monday             |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| school             |
+| test               |
++--------------------+
+11 rows in set (0.001 sec)
+
+MariaDB [(none)]> use monday;
+Database changed
+MariaDB [monday]> create table student
+    -> (
+    -> id int,
+    -> name varchar(79),
+    -> age int
+    -> );
+Query OK, 0 rows affected (0.220 sec)
+
+MariaDB [monday]> show tables;
++------------------+
+| Tables_in_monday |
++------------------+
+| student          |
++------------------+
+1 row in set (0.001 sec)
+
+MariaDB [monday]> desc student;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int(11)     | YES  |     | NULL    |       |
+| name  | varchar(79) | YES  |     | NULL    |       |
+| age   | int(11)     | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.015 sec)
+
+MariaDB [monday]> insert into student
+    -> values
+    -> (001,'dipesh',21);
+Query OK, 1 row affected (0.038 sec)
+
+MariaDB [monday]> insert into student
+    -> values
+    -> (002,'dhanu',22);
+Query OK, 1 row affected (0.037 sec)
+
+MariaDB [monday]> insert into student
+    -> values
+    -> (003,'dhiraj',20);
+Query OK, 1 row affected (0.033 sec)
+
+MariaDB [monday]> select * from student;
++------+--------+------+
+| id   | name   | age  |
++------+--------+------+
+|    1 | dipesh |   21 |
+|    2 | dhanu  |   22 |
+|    3 | dhiraj |   20 |
++------+--------+------+
+3 rows in set (0.000 sec)
+
+MariaDB [monday]> insert into student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+MariaDB [monday]> insert into student
+    -> values
+    -> (11,'patil',21);(12,'bhoir',22);(13,'gharat'23);
+Query OK, 1 row affected (0.052 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '12,'bhoir',22)' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '13,'gharat'23)' at line 1
+MariaDB [monday]> (11,'patil',21);(12,'bhoir',22);(13,'gharat',23);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '11,'patil',21)' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '12,'bhoir',22)' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '13,'gharat',23)' at line 1
+MariaDB [monday]> insert into student(
+    -> values
+    -> (11,'patil',21);(12,'bhoir',22);(13,'gharat',23);)
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 3
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '12,'bhoir',22)' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '13,'gharat',23)' at line 1
+    -> insert into student(
+    -> values((11,'patil',21);(12,'bhoir',22);(13,'gharat',23)))
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ')
+insert into student(
+values((11,'patil',21)' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '12,'bhoir',22)' at line 1
+    -> insert into student(
+    -> values((11,'patil',21);(12,'bhoir',22);(13,'gharat',23);))
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '13,'gharat',23)))
+insert into student(
+values((11,'patil',21)' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '12,'bhoir',22)' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '13,'gharat',23)' at line 1
+    -> insert into student
+    -> (
+    -> values
+    -> ((11,'patil',21));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '))
+insert into student
+(
+values
+((11,'patil',21))' at line 1
+MariaDB [monday]> insert into student(
+    -> values(11,'Patil',21),
+    -> values(12,'Bhoir',22);)
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'values(12,'Bhoir',22)' at line 3
+    -> insert into student(
+    -> values(11,'Patil',21),
+    -> values(12,'Bhoir',22));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ')
+insert into student(
+values(11,'Patil',21),
+values(12,'Bhoir',22))' at line 1
+MariaDB [monday]> insert into student(
+    -> values(11,'Patil',21),
+    -> values(12,'Bhoir',22););
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'values(12,'Bhoir',22)' at line 3
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ')' at line 1
+MariaDB [monday]> insert into student(
+    -> value
+    -> values(11,'Patil',21);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'values(11,'Patil',21)' at line 3
+MariaDB [monday]> insert into student(
+    -> values(11,'Patil',21);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 2
+MariaDB [monday]> insert into student(
+    -> values(11,'Patil',21);)
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 2
+    -> insert into student(
+    -> values(11,'Patil',21));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ')
+insert into student(
+values(11,'Patil',21))' at line 1
+MariaDB [monday]> insert into student
+    -> values(11,'Patil',21);
+Query OK, 1 row affected (0.054 sec)
+
+MariaDB [monday]> insert into student
+    -> values(11,'Patil',21),(1112,'bhoir',22)(1345,'ddp,65);
+    '>
+    '> select * from student;
+    '> ;
+    '> insert into student;
+    '>
+    '> cls
+    '>
+    '> ,
+    '> ));
+    '> values(11,'Patil',21),(1112,'bhoir',22),(1345,'ddp,65);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '(1345,'ddp,65);
+
+select * from student;
+;
+insert into student;
+
+cls
+
+,
+));
+va...' at line 2
+MariaDB [monday]> insert into student
+    -> values(11,'Patil',21),(1112,'bhoir',22),(1345,'ddp,65);
+    '> values(11,'Patil',21),(1112,'bhoir',22),(1345,'ddp,65);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Patil',21),(1112,'bhoir',22),(1345,'ddp,65)' at line 2
+MariaDB [monday]> insert into student
+    -> values(11,'Patil',21),(1112,'bhoir',22),(1345,'ddp',65);
+Query OK, 3 rows affected (0.112 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [monday]> select * from student;
++------+--------+------+
+| id   | name   | age  |
++------+--------+------+
+|    1 | dipesh |   21 |
+|    2 | dhanu  |   22 |
+|    3 | dhiraj |   20 |
+|   11 | patil  |   21 |
+|   11 | Patil  |   21 |
+|   11 | Patil  |   21 |
+| 1112 | bhoir  |   22 |
+| 1345 | ddp    |   65 |
++------+--------+------+
+8 rows in set (0.000 sec)
+
+MariaDB [monday]> update student set age=55,name='patil' where id=11;
+Query OK, 3 rows affected (0.036 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+MariaDB [monday]> select * from student;
++------+--------+------+
+| id   | name   | age  |
++------+--------+------+
+|    1 | dipesh |   21 |
+|    2 | dhanu  |   22 |
+|    3 | dhiraj |   20 |
+|   11 | patil  |   55 |
+|   11 | patil  |   55 |
+|   11 | patil  |   55 |
+| 1112 | bhoir  |   22 |
+| 1345 | ddp    |   65 |
++------+--------+------+
+8 rows in set (0.001 sec)
+
+MariaDB [monday]> insert into student
+    -> values
+    ->
+    -> (31,'jayesh',1,add'kasarali goan');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'add'kasarali goan')' at line 4
+MariaDB [monday]> select id from student;
++------+
+| id   |
++------+
+|    1 |
+|    2 |
+|    3 |
+|   11 |
+|   11 |
+|   11 |
+| 1112 |
+| 1345 |
++------+
+8 rows in set (0.000 sec)
+
+MariaDB [monday]> select id,name from student;
++------+--------+
+| id   | name   |
++------+--------+
+|    1 | dipesh |
+|    2 | dhanu  |
+|    3 | dhiraj |
+|   11 | patil  |
+|   11 | patil  |
+|   11 | patil  |
+| 1112 | bhoir  |
+| 1345 | ddp    |
++------+--------+
+8 rows in set (0.001 sec)
+
+MariaDB [monday]> select name from student;
++--------+
+| name   |
++--------+
+| dipesh |
+| dhanu  |
+| dhiraj |
+| patil  |
+| patil  |
+| patil  |
+| bhoir  |
+| ddp    |
++--------+
+8 rows in set (0.000 sec)
+
+MariaDB [monday]> select name,age from student;
++--------+------+
+| name   | age  |
++--------+------+
+| dipesh |   21 |
+| dhanu  |   22 |
+| dhiraj |   20 |
+| patil  |   55 |
+| patil  |   55 |
+| patil  |   55 |
+| bhoir  |   22 |
+| ddp    |   65 |
++--------+------+
+8 rows in set (0.001 sec)
+
+MariaDB [monday]> select name,age from student where id=1;
++--------+------+
+| name   | age  |
++--------+------+
+| dipesh |   21 |
++--------+------+
+1 row in set (0.039 sec)
+
+MariaDB [monday]> select name,age from student where name='dipesh';
++--------+------+
+| name   | age  |
++--------+------+
+| dipesh |   21 |
++--------+------+
+1 row in set (0.001 sec)
+
+MariaDB [monday]> select name,age from student where name='dipesh' and id=1;
++--------+------+
+| name   | age  |
++--------+------+
+| dipesh |   21 |
++--------+------+
+1 row in set (0.078 sec)
+
+MariaDB [monday]> select id,name,age from student where name='dipesh' and id=1;
++------+--------+------+
+| id   | name   | age  |
++------+--------+------+
+|    1 | dipesh |   21 |
++------+--------+------+
+1 row in set (0.001 sec)
+
+MariaDB [monday]> select id,name,age from student where name='dipesh' and id=2;
+Empty set (0.001 sec)
+
+MariaDB [monday]> select id,name,age from student where name='dipesh' or id=2;
++------+--------+------+
+| id   | name   | age  |
++------+--------+------+
+|    1 | dipesh |   21 |
+|    2 | dhanu  |   22 |
++------+--------+------+
+2 rows in set (0.001 sec)
+
+MariaDB [monday]> select id,name,age from student where id between 1 and 4;
++------+--------+------+
+| id   | name   | age  |
++------+--------+------+
+|    1 | dipesh |   21 |
+|    2 | dhanu  |   22 |
+|    3 | dhiraj |   20 |
++------+--------+------+
+3 rows in set (0.018 sec)
+
+MariaDB [monday]> select id,name,age from student where id between 1 and 5;
++------+--------+------+
+| id   | name   | age  |
++------+--------+------+
+|    1 | dipesh |   21 |
+|    2 | dhanu  |   22 |
+|    3 | dhiraj |   20 |
++------+--------+------+
+3 rows in set (0.001 sec)
+
+MariaDB [monday]> select id,name,age from student where id between 1 and 9;
++------+--------+------+
+| id   | name   | age  |
++------+--------+------+
+|    1 | dipesh |   21 |
+|    2 | dhanu  |   22 |
+|    3 | dhiraj |   20 |
++------+--------+------+
+3 rows in set (0.001 sec)
+
+MariaDB [monday]> select id,name,age from student where id between 1 and 9000;
++------+--------+------+
+| id   | name   | age  |
++------+--------+------+
+|    1 | dipesh |   21 |
+|    2 | dhanu  |   22 |
+|    3 | dhiraj |   20 |
+|   11 | patil  |   55 |
+|   11 | patil  |   55 |
+|   11 | patil  |   55 |
+| 1112 | bhoir  |   22 |
+| 1345 | ddp    |   65 |
++------+--------+------+
+8 rows in set (0.001 sec)
+
+MariaDB [monday]> select id,name,age from student where id not between 1 and 5;
++------+-------+------+
+| id   | name  | age  |
++------+-------+------+
+|   11 | patil |   55 |
+|   11 | patil |   55 |
+|   11 | patil |   55 |
+| 1112 | bhoir |   22 |
+| 1345 | ddp   |   65 |
++------+-------+------+
+5 rows in set (0.000 sec)
+
+MariaDB [monday]> select id,name,age from student where id not between 1 or 5;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'or 5' at line 1
+MariaDB [monday]>

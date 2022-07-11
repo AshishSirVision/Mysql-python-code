@@ -1,0 +1,225 @@
+
+Setting environment for using XAMPP for Windows.
+Admin@DESKTOP-2 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 9
+Server version: 10.4.24-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| advantech          |
+| db_college         |
+| db_school          |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+8 rows in set (0.046 sec)
+
+MariaDB [(none)]> create database school;
+Query OK, 1 row affected (0.021 sec)
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| advantech          |
+| db_college         |
+| db_school          |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| school             |
+| test               |
++--------------------+
+9 rows in set (0.001 sec)
+
+MariaDB [(none)]> use advantech;
+Database changed
+MariaDB [advantech]> show tables;
++---------------------+
+| Tables_in_advantech |
++---------------------+
+| books               |
+| employee            |
+| registation         |
+| student             |
+| student2            |
++---------------------+
+5 rows in set (0.001 sec)
+
+MariaDB [advantech]> create table list1
+    -> (
+    -> name varchar(20),
+    -> family varchar(15),
+    -> phone_number bigint
+    -> );
+Query OK, 0 rows affected (0.231 sec)
+
+MariaDB [advantech]> show tables;
++---------------------+
+| Tables_in_advantech |
++---------------------+
+| books               |
+| employee            |
+| list1               |
+| registation         |
+| student             |
+| student2            |
++---------------------+
+6 rows in set (0.001 sec)
+
+MariaDB [advantech]> desc books;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| title     | varchar(25)  | YES  |     | NULL    |       |
+| name      | varchar(20)  | YES  |     | NULL    |       |
+| price     | decimal(7,2) | YES  |     | NULL    |       |
+| noofpages | int(11)      | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.081 sec)
+
+MariaDB [advantech]> desc list;
+ERROR 1146 (42S02): Table 'advantech.list' doesn't exist
+MariaDB [advantech]> desc lists;
+ERROR 1146 (42S02): Table 'advantech.lists' doesn't exist
+MariaDB [advantech]> desc list1;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| name         | varchar(20) | YES  |     | NULL    |       |
+| family       | varchar(15) | YES  |     | NULL    |       |
+| phone_number | bigint(20)  | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+3 rows in set (0.011 sec)
+
+MariaDB [advantech]> selct * from book;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'selct * from book' at line 1
+MariaDB [advantech]> select * from book;
+ERROR 1146 (42S02): Table 'advantech.book' doesn't exist
+MariaDB [advantech]> select * from books;
+Empty set (0.144 sec)
+
+MariaDB [advantech]> insert into list1
+    -> values('tom','jerry-john',989898978);
+Query OK, 1 row affected (0.037 sec)
+
+MariaDB [advantech]> select * from list1;
++------+------------+--------------+
+| name | family     | phone_number |
++------+------------+--------------+
+| tom  | jerry-john |    989898978 |
++------+------------+--------------+
+1 row in set (0.001 sec)
+
+MariaDB [advantech]> insert into list1
+    -> values('soham','tom-john',982345432);
+Query OK, 1 row affected (0.040 sec)
+
+MariaDB [advantech]> insert into list1
+    -> values('soham','tom-john',982345432),('riya','riya-priya',7856453467);
+Query OK, 2 rows affected (0.053 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [advantech]> insert into list1
+    -> values('soham','tom-john',982345432)
+    -> values('soham','tom-john',982345432)--;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'values('soham','tom-john',982345432)--' at line 3
+MariaDB [advantech]> select * from list1;
++-------+------------+--------------+
+| name  | family     | phone_number |
++-------+------------+--------------+
+| tom   | jerry-john |    989898978 |
+| soham | tom-john   |    982345432 |
+| soham | tom-john   |    982345432 |
+| riya  | riya-priya |   7856453467 |
++-------+------------+--------------+
+4 rows in set (0.001 sec)
+
+MariaDB [advantech]> select * from where name='tom';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'where name='tom'' at line 1
+MariaDB [advantech]> select * from list1 where name='tom';
++------+------------+--------------+
+| name | family     | phone_number |
++------+------------+--------------+
+| tom  | jerry-john |    989898978 |
++------+------------+--------------+
+1 row in set (0.001 sec)
+
+MariaDB [advantech]> select family from list1 where name='tom';
++------------+
+| family     |
++------------+
+| jerry-john |
++------------+
+1 row in set (0.001 sec)
+
+MariaDB [advantech]> select * from list1;
++-------+------------+--------------+
+| name  | family     | phone_number |
++-------+------------+--------------+
+| tom   | jerry-john |    989898978 |
+| soham | tom-john   |    982345432 |
+| soham | tom-john   |    982345432 |
+| riya  | riya-priya |   7856453467 |
++-------+------------+--------------+
+4 rows in set (0.000 sec)
+
+MariaDB [advantech]> update list1 set phone_number=7878676756 where name='tom';
+Query OK, 1 row affected (0.071 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [advantech]> select * from list1;
++-------+------------+--------------+
+| name  | family     | phone_number |
++-------+------------+--------------+
+| tom   | jerry-john |   7878676756 |
+| soham | tom-john   |    982345432 |
+| soham | tom-john   |    982345432 |
+| riya  | riya-priya |   7856453467 |
++-------+------------+--------------+
+4 rows in set (0.001 sec)
+
+MariaDB [advantech]> update list1 set phone_number=7878676756;
+Query OK, 3 rows affected (0.039 sec)
+Rows matched: 4  Changed: 3  Warnings: 0
+
+MariaDB [advantech]> select * from list1;
++-------+------------+--------------+
+| name  | family     | phone_number |
++-------+------------+--------------+
+| tom   | jerry-john |   7878676756 |
+| soham | tom-john   |   7878676756 |
+| soham | tom-john   |   7878676756 |
+| riya  | riya-priya |   7878676756 |
++-------+------------+--------------+
+4 rows in set (0.001 sec)
+
+MariaDB [advantech]> update list1 set phone_number=7452343535 where name='tom';
+Query OK, 1 row affected (0.026 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [advantech]> select * from list1;
++-------+------------+--------------+
+| name  | family     | phone_number |
++-------+------------+--------------+
+| tom   | jerry-john |   7452343535 |
+| soham | tom-john   |   7878676756 |
+| soham | tom-john   |   7878676756 |
+| riya  | riya-priya |   7878676756 |
++-------+------------+--------------+
+4 rows in set (0.000 sec)
+
+MariaDB [advantech]>

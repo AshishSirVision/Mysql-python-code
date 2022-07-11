@@ -1,0 +1,529 @@
+
+Setting environment for using XAMPP for Windows.
+Admin@DESKTOP-2 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 8
+Server version: 10.4.24-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| advantech          |
+| db_college         |
+| db_school          |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| school             |
+| test               |
++--------------------+
+9 rows in set (0.406 sec)
+
+MariaDB [(none)]> use school;
+Database changed
+MariaDB [school]> show tables;
++------------------+
+| Tables_in_school |
++------------------+
+| student          |
++------------------+
+1 row in set (0.001 sec)
+
+MariaDB [school]> desc student;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| RollNo       | int(11)     | YES  |     | NULL    |       |
+| First_Name   | varchar(10) | YES  |     | NULL    |       |
+| Last_Name    | varchar(15) | YES  |     | NULL    |       |
+| Phone_Number | bigint(20)  | YES  |     | NULL    |       |
+| City         | varchar(20) | YES  |     | NULL    |       |
+| State        | varchar(20) | YES  |     | NULL    |       |
+| Age          | int(11)     | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+7 rows in set (0.150 sec)
+
+MariaDB [school]> select * from student;
+Empty set (0.515 sec)
+
+MariaDB [school]> insert into student
+    -> values(111,'tom','jerry',98765678,'virar','maharastra',18);
+Query OK, 1 row affected (0.809 sec)
+
+MariaDB [school]> select * from student;
++--------+------------+-----------+--------------+-------+------------+------+
+| RollNo | First_Name | Last_Name | Phone_Number | City  | State      | Age  |
++--------+------------+-----------+--------------+-------+------------+------+
+|    111 | tom        | jerry     |     98765678 | virar | maharastra |   18 |
++--------+------------+-----------+--------------+-------+------------+------+
+1 row in set (0.001 sec)
+
+MariaDB [school]> insert into student
+    -> values(112,'aakansha','correia',987695678,'arnala','maharastra',19),(113,'janisa','dabre',8765645,'mumbai',maharastra,19);
+ERROR 1054 (42S22): Unknown column 'maharastra' in 'field list'
+MariaDB [school]> values(112,'aakansha','correia',987695678,'arnala','maharastra',19),(113,'janisa','dabre',8765645,'mumbai','maharastra',19);
++-----+----------+---------+-----------+--------+------------+----+
+| 112 | aakansha | correia | 987695678 | arnala | maharastra | 19 |
++-----+----------+---------+-----------+--------+------------+----+
+| 112 | aakansha | correia | 987695678 | arnala | maharastra | 19 |
+| 113 | janisa   | dabre   |   8765645 | mumbai | maharastra | 19 |
++-----+----------+---------+-----------+--------+------------+----+
+2 rows in set (0.028 sec)
+
+MariaDB [school]> select * from student;
++--------+------------+-----------+--------------+-------+------------+------+
+| RollNo | First_Name | Last_Name | Phone_Number | City  | State      | Age  |
++--------+------------+-----------+--------------+-------+------------+------+
+|    111 | tom        | jerry     |     98765678 | virar | maharastra |   18 |
++--------+------------+-----------+--------------+-------+------------+------+
+1 row in set (0.000 sec)
+
+MariaDB [school]> insert into student
+    -> values(112,'aakansha','correia',987695678,'arnala','maharastra',19),(113,'janisa','dabre',8765645,'mumbai','maharastra',19);
+Query OK, 2 rows affected (0.170 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [school]> select * from student;
++--------+------------+-----------+--------------+--------+------------+------+
+| RollNo | First_Name | Last_Name | Phone_Number | City   | State      | Age  |
++--------+------------+-----------+--------------+--------+------------+------+
+|    111 | tom        | jerry     |     98765678 | virar  | maharastra |   18 |
+|    112 | aakansha   | correia   |    987695678 | arnala | maharastra |   19 |
+|    113 | janisa     | dabre     |      8765645 | mumbai | maharastra |   19 |
++--------+------------+-----------+--------------+--------+------------+------+
+3 rows in set (0.000 sec)
+
+MariaDB [school]> insert into student
+    -> values(112,'aakansha','correia',987695678,'arnala','maharastra',19),(113,'janisa','dabre',8765645,'mumbai','maharastra',19);
+Query OK, 2 rows affected (0.071 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [school]> select * from student;
++--------+------------+-----------+--------------+--------+------------+------+
+| RollNo | First_Name | Last_Name | Phone_Number | City   | State      | Age  |
++--------+------------+-----------+--------------+--------+------------+------+
+|    111 | tom        | jerry     |     98765678 | virar  | maharastra |   18 |
+|    112 | aakansha   | correia   |    987695678 | arnala | maharastra |   19 |
+|    113 | janisa     | dabre     |      8765645 | mumbai | maharastra |   19 |
+|    112 | aakansha   | correia   |    987695678 | arnala | maharastra |   19 |
+|    113 | janisa     | dabre     |      8765645 | mumbai | maharastra |   19 |
++--------+------------+-----------+--------------+--------+------------+------+
+5 rows in set (0.000 sec)
+
+MariaDB [school]> select rollno distinct from student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'distinct from student' at line 1
+MariaDB [school]> select distinct rollno from student;
++--------+
+| rollno |
++--------+
+|    111 |
+|    112 |
+|    113 |
++--------+
+3 rows in set (0.027 sec)
+
+MariaDB [school]> select distinct * from student;
++--------+------------+-----------+--------------+--------+------------+------+
+| RollNo | First_Name | Last_Name | Phone_Number | City   | State      | Age  |
++--------+------------+-----------+--------------+--------+------------+------+
+|    111 | tom        | jerry     |     98765678 | virar  | maharastra |   18 |
+|    112 | aakansha   | correia   |    987695678 | arnala | maharastra |   19 |
+|    113 | janisa     | dabre     |      8765645 | mumbai | maharastra |   19 |
++--------+------------+-----------+--------------+--------+------------+------+
+3 rows in set (0.001 sec)
+
+MariaDB [school]> select distinct * from student order by first_name;
++--------+------------+-----------+--------------+--------+------------+------+
+| RollNo | First_Name | Last_Name | Phone_Number | City   | State      | Age  |
++--------+------------+-----------+--------------+--------+------------+------+
+|    112 | aakansha   | correia   |    987695678 | arnala | maharastra |   19 |
+|    113 | janisa     | dabre     |      8765645 | mumbai | maharastra |   19 |
+|    111 | tom        | jerry     |     98765678 | virar  | maharastra |   18 |
++--------+------------+-----------+--------------+--------+------------+------+
+3 rows in set (0.070 sec)
+
+MariaDB [school]> select distinct * from student order by desc first_name;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'desc first_name' at line 1
+MariaDB [school]> select distinct * from student order by des first_name;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'first_name' at line 1
+MariaDB [school]> select distinct * from student order by first_name desc;
++--------+------------+-----------+--------------+--------+------------+------+
+| RollNo | First_Name | Last_Name | Phone_Number | City   | State      | Age  |
++--------+------------+-----------+--------------+--------+------------+------+
+|    111 | tom        | jerry     |     98765678 | virar  | maharastra |   18 |
+|    113 | janisa     | dabre     |      8765645 | mumbai | maharastra |   19 |
+|    112 | aakansha   | correia   |    987695678 | arnala | maharastra |   19 |
++--------+------------+-----------+--------------+--------+------------+------+
+3 rows in set (0.001 sec)
+
+MariaDB [school]> select distinct * from student order by first_name asc;
++--------+------------+-----------+--------------+--------+------------+------+
+| RollNo | First_Name | Last_Name | Phone_Number | City   | State      | Age  |
++--------+------------+-----------+--------------+--------+------------+------+
+|    112 | aakansha   | correia   |    987695678 | arnala | maharastra |   19 |
+|    113 | janisa     | dabre     |      8765645 | mumbai | maharastra |   19 |
+|    111 | tom        | jerry     |     98765678 | virar  | maharastra |   18 |
++--------+------------+-----------+--------------+--------+------------+------+
+3 rows in set (0.001 sec)
+
+MariaDB [school]> select count(*) from student;
++----------+
+| count(*) |
++----------+
+|        5 |
++----------+
+1 row in set (0.057 sec)
+
+MariaDB [school]> select * from student;
++--------+------------+-----------+--------------+--------+------------+------+
+| RollNo | First_Name | Last_Name | Phone_Number | City   | State      | Age  |
++--------+------------+-----------+--------------+--------+------------+------+
+|    111 | tom        | jerry     |     98765678 | virar  | maharastra |   18 |
+|    112 | aakansha   | correia   |    987695678 | arnala | maharastra |   19 |
+|    113 | janisa     | dabre     |      8765645 | mumbai | maharastra |   19 |
+|    112 | aakansha   | correia   |    987695678 | arnala | maharastra |   19 |
+|    113 | janisa     | dabre     |      8765645 | mumbai | maharastra |   19 |
++--------+------------+-----------+--------------+--------+------------+------+
+5 rows in set (0.001 sec)
+
+MariaDB [school]> select count(*), * from student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '* from student' at line 1
+MariaDB [school]> select count(*), id from student;
+ERROR 1054 (42S22): Unknown column 'id' in 'field list'
+MariaDB [school]> select id, count(*) from student;
+ERROR 1054 (42S22): Unknown column 'id' in 'field list'
+MariaDB [school]> select rollno, count(*) from student;
++--------+----------+
+| rollno | count(*) |
++--------+----------+
+|    111 |        5 |
++--------+----------+
+1 row in set (0.001 sec)
+
+MariaDB [school]> select rollno, count(*) from student where rollno=111;
++--------+----------+
+| rollno | count(*) |
++--------+----------+
+|    111 |        1 |
++--------+----------+
+1 row in set (0.053 sec)
+
+MariaDB [school]> select rollno, count(*) from student where rollno=112;
++--------+----------+
+| rollno | count(*) |
++--------+----------+
+|    112 |        2 |
++--------+----------+
+1 row in set (0.000 sec)
+
+MariaDB [school]> select max(age) from student;
++----------+
+| max(age) |
++----------+
+|       19 |
++----------+
+1 row in set (0.010 sec)
+
+MariaDB [school]> select min(age) from student;
++----------+
+| min(age) |
++----------+
+|       18 |
++----------+
+1 row in set (0.000 sec)
+
+MariaDB [school]> select avg(age) from student;
++----------+
+| avg(age) |
++----------+
+|  18.8000 |
++----------+
+1 row in set (0.020 sec)
+
+MariaDB [school]> select upper(first_name) from student;
++-------------------+
+| upper(first_name) |
++-------------------+
+| TOM               |
+| AAKANSHA          |
+| JANISA            |
+| AAKANSHA          |
+| JANISA            |
++-------------------+
+5 rows in set (0.023 sec)
+
+MariaDB [school]> select length(first_name) from student;
++--------------------+
+| length(first_name) |
++--------------------+
+|                  3 |
+|                  8 |
+|                  6 |
+|                  8 |
+|                  6 |
++--------------------+
+5 rows in set (0.011 sec)
+
+MariaDB [school]>
+MariaDB [school]> select power(2,3);
++------------+
+| power(2,3) |
++------------+
+|          8 |
++------------+
+1 row in set (0.021 sec)
+
+MariaDB [school]> select power(2,5);
++------------+
+| power(2,5) |
++------------+
+|         32 |
++------------+
+1 row in set (0.000 sec)
+
+MariaDB [school]> select trim('    dfgdf   ');
++----------------------+
+| trim('    dfgdf   ') |
++----------------------+
+| dfgdf                |
++----------------------+
+1 row in set (0.000 sec)
+
+MariaDB [school]> select '    tom   ';
++------------+
+| tom        |
++------------+
+|     tom    |
++------------+
+1 row in set (0.000 sec)
+
+MariaDB [school]> select ltrim('    tom   ');
++---------------------+
+| ltrim('    tom   ') |
++---------------------+
+| tom                 |
++---------------------+
+1 row in set (0.000 sec)
+
+MariaDB [school]> select rtrim('    tom   ');
++---------------------+
+| rtrim('    tom   ') |
++---------------------+
+|     tom             |
++---------------------+
+1 row in set (0.000 sec)
+
+MariaDB [school]>
+MariaDB [school]> select abs(-20.5);
++------------+
+| abs(-20.5) |
++------------+
+|       20.5 |
++------------+
+1 row in set (0.035 sec)
+
+MariaDB [school]> select abs(20.5);
++-----------+
+| abs(20.5) |
++-----------+
+|      20.5 |
++-----------+
+1 row in set (0.000 sec)
+
+MariaDB [school]> select exp(20.5);
++-------------------+
+| exp(20.5)         |
++-------------------+
+| 799902177.4755054 |
++-------------------+
+1 row in set (0.019 sec)
+
+MariaDB [school]> select exp(2);
++------------------+
+| exp(2)           |
++------------------+
+| 7.38905609893065 |
++------------------+
+1 row in set (0.000 sec)
+
+MariaDB [school]> select log(2);
++--------------------+
+| log(2)             |
++--------------------+
+| 0.6931471805599453 |
++--------------------+
+1 row in set (0.000 sec)
+
+MariaDB [school]> select sqrt(3);
++--------------------+
+| sqrt(3)            |
++--------------------+
+| 1.7320508075688772 |
++--------------------+
+1 row in set (0.000 sec)
+
+MariaDB [school]> select sqrt(8);
++--------------------+
+| sqrt(8)            |
++--------------------+
+| 2.8284271247461903 |
++--------------------+
+1 row in set (0.000 sec)
+
+MariaDB [school]> select round(8.6);
++------------+
+| round(8.6) |
++------------+
+|          9 |
++------------+
+1 row in set (0.008 sec)
+
+MariaDB [school]> select round(8.2);
++------------+
+| round(8.2) |
++------------+
+|          8 |
++------------+
+1 row in set (0.000 sec)
+
+MariaDB [school]> select round(8.5);
++------------+
+| round(8.5) |
++------------+
+|          9 |
++------------+
+1 row in set (0.000 sec)
+
+MariaDB [school]> select sign(8.5);
++-----------+
+| sign(8.5) |
++-----------+
+|         1 |
++-----------+
+1 row in set (0.000 sec)
+
+MariaDB [school]> select sign(-8.5);
++------------+
+| sign(-8.5) |
++------------+
+|         -1 |
++------------+
+1 row in set (0.000 sec)
+
+MariaDB [school]> select sign(0);
++---------+
+| sign(0) |
++---------+
+|       0 |
++---------+
+1 row in set (0.000 sec)
+
+MariaDB [school]> select sign(89);
++----------+
+| sign(89) |
++----------+
+|        1 |
++----------+
+1 row in set (0.000 sec)
+
+MariaDB [school]> select now();
++---------------------+
+| now()               |
++---------------------+
+| 2022-07-03 10:43:18 |
++---------------------+
+1 row in set (0.011 sec)
+
+MariaDB [school]> select current_date();
++----------------+
+| current_date() |
++----------------+
+| 2022-07-03     |
++----------------+
+1 row in set (0.009 sec)
+
+MariaDB [school]> select last_day();
+ERROR 1582 (42000): Incorrect parameter count in the call to native function 'last_day'
+MariaDB [school]> select last_day(now());
++-----------------+
+| last_day(now()) |
++-----------------+
+| 2022-07-31      |
++-----------------+
+1 row in set (0.009 sec)
+
+MariaDB [school]> select now();
++---------------------+
+| now()               |
++---------------------+
+| 2022-07-03 10:44:23 |
++---------------------+
+1 row in set (0.000 sec)
+
+MariaDB [school]> select add_months(now(),2);
+ERROR 1305 (42000): FUNCTION school.add_months does not exist
+MariaDB [school]> select add_months();
+ERROR 1305 (42000): FUNCTION school.add_months does not exist
+MariaDB [school]> select add_month);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ')' at line 1
+MariaDB [school]> select add_month();
+ERROR 1305 (42000): FUNCTION school.add_month does not exist
+MariaDB [school]> select lower('HELLO');
++----------------+
+| lower('HELLO') |
++----------------+
+| hello          |
++----------------+
+1 row in set (0.020 sec)
+
+MariaDB [school]> select substr('this is pen');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ')' at line 1
+MariaDB [school]> select substr('this is pen',2);
++-------------------------+
+| substr('this is pen',2) |
++-------------------------+
+| his is pen              |
++-------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [school]> select substr('this is pen',5);
++-------------------------+
+| substr('this is pen',5) |
++-------------------------+
+|  is pen                 |
++-------------------------+
+1 row in set (0.001 sec)
+
+MariaDB [school]> select substr('this is pen',5,9);
++---------------------------+
+| substr('this is pen',5,9) |
++---------------------------+
+|  is pen                   |
++---------------------------+
+1 row in set (0.014 sec)
+
+MariaDB [school]> select substr('this is pen',2,5);
++---------------------------+
+| substr('this is pen',2,5) |
++---------------------------+
+| his i                     |
++---------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [school]> select substr('this is pen',2,2);
++---------------------------+
+| substr('this is pen',2,2) |
++---------------------------+
+| hi                        |
++---------------------------+
+1 row in set (0.001 sec)
+
+MariaDB [school]>
