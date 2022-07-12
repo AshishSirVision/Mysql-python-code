@@ -1,0 +1,724 @@
+
+Setting environment for using XAMPP for Windows.
+Admin@DESKTOP-2 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 9
+Server version: 10.4.24-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| advantech          |
+| db_college         |
+| db_school          |
+| dev                |
+| information_schema |
+| life               |
+| monday             |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| school             |
+| test               |
++--------------------+
+12 rows in set (0.103 sec)
+
+MariaDB [(none)]> use life;
+Database changed
+MariaDB [life]> show tables;
++----------------+
+| Tables_in_life |
++----------------+
+| future         |
+| present        |
++----------------+
+2 rows in set (0.001 sec)
+
+MariaDB [life]> select * from future;
++------+--------+------+
+| id   | name   | age  |
++------+--------+------+
+|   11 | patil  |   55 |
+|   12 | bhoir  |   45 |
+|   13 | gharat |   50 |
++------+--------+------+
+3 rows in set (0.000 sec)
+
+MariaDB [life]> select * from present;
++------+--------+------+
+| id   | name   | age  |
++------+--------+------+
+|    1 | dipesh |   70 |
+|    2 | dhanu  |   75 |
+|    3 | dhiraj |   70 |
++------+--------+------+
+3 rows in set (0.001 sec)
+
+MariaDB [life]> desc future;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int(11)     | YES  |     | NULL    |       |
+| name  | varchar(90) | YES  |     | NULL    |       |
+| age   | int(11)     | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.027 sec)
+
+MariaDB [life]> desc present;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int(11)     | YES  |     | NULL    |       |
+| name  | varchar(80) | YES  |     | NULL    |       |
+| age   | int(11)     | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.013 sec)
+
+MariaDB [life]> select * from present;
++------+--------+------+
+| id   | name   | age  |
++------+--------+------+
+|    1 | dipesh |   70 |
+|    2 | dhanu  |   75 |
+|    3 | dhiraj |   70 |
++------+--------+------+
+3 rows in set (0.001 sec)
+
+MariaDB [life]> select count(*) from present;
++----------+
+| count(*) |
++----------+
+|        3 |
++----------+
+1 row in set (0.054 sec)
+
+MariaDB [life]> select max(*) from present;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '*) from present' at line 1
+MariaDB [life]> select max(age) from present;
++----------+
+| max(age) |
++----------+
+|       75 |
++----------+
+1 row in set (0.025 sec)
+
+MariaDB [life]> select name,max(age) from present;
++--------+----------+
+| name   | max(age) |
++--------+----------+
+| dipesh |       75 |
++--------+----------+
+1 row in set (0.010 sec)
+
+MariaDB [life]> select name,min(age) from present;
++--------+----------+
+| name   | min(age) |
++--------+----------+
+| dipesh |       70 |
++--------+----------+
+1 row in set (0.001 sec)
+
+MariaDB [life]> select * from present;
++------+--------+------+
+| id   | name   | age  |
++------+--------+------+
+|    1 | dipesh |   70 |
+|    2 | dhanu  |   75 |
+|    3 | dhiraj |   70 |
++------+--------+------+
+3 rows in set (0.000 sec)
+
+MariaDB [life]> select avg(age) from present;
++----------+
+| avg(age) |
++----------+
+|  71.6667 |
++----------+
+1 row in set (0.016 sec)
+
+MariaDB [life]> select * from present;
++------+--------+------+
+| id   | name   | age  |
++------+--------+------+
+|    1 | dipesh |   70 |
+|    2 | dhanu  |   75 |
+|    3 | dhiraj |   70 |
++------+--------+------+
+3 rows in set (0.000 sec)
+
+MariaDB [life]> insert into present
+    -> values
+    -> (111,'tom',18),
+    -> (112,'jerry',19),
+    -> (113,'bavik',20)
+    -> ,(114,'bhavik',12),
+    -> (112,'jerry',19),
+    -> (112,'jerry',19),
+    -> (112,'jerry',19)
+    -> ;
+Query OK, 7 rows affected (0.063 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+MariaDB [life]> select * from present;
++------+--------+------+
+| id   | name   | age  |
++------+--------+------+
+|    1 | dipesh |   70 |
+|    2 | dhanu  |   75 |
+|    3 | dhiraj |   70 |
+|  111 | tom    |   18 |
+|  112 | jerry  |   19 |
+|  113 | bavik  |   20 |
+|  114 | bhavik |   12 |
+|  112 | jerry  |   19 |
+|  112 | jerry  |   19 |
+|  112 | jerry  |   19 |
++------+--------+------+
+10 rows in set (0.000 sec)
+
+MariaDB [life]> select distinct * from present;
++------+--------+------+
+| id   | name   | age  |
++------+--------+------+
+|    1 | dipesh |   70 |
+|    2 | dhanu  |   75 |
+|    3 | dhiraj |   70 |
+|  111 | tom    |   18 |
+|  112 | jerry  |   19 |
+|  113 | bavik  |   20 |
+|  114 | bhavik |   12 |
++------+--------+------+
+7 rows in set (0.009 sec)
+
+MariaDB [life]> select distinct * from present order by age;
++------+--------+------+
+| id   | name   | age  |
++------+--------+------+
+|  114 | bhavik |   12 |
+|  111 | tom    |   18 |
+|  112 | jerry  |   19 |
+|  113 | bavik  |   20 |
+|    1 | dipesh |   70 |
+|    3 | dhiraj |   70 |
+|    2 | dhanu  |   75 |
++------+--------+------+
+7 rows in set (0.018 sec)
+
+MariaDB [life]> select distinct * from present order by age desc;
++------+--------+------+
+| id   | name   | age  |
++------+--------+------+
+|    2 | dhanu  |   75 |
+|    1 | dipesh |   70 |
+|    3 | dhiraj |   70 |
+|  113 | bavik  |   20 |
+|  112 | jerry  |   19 |
+|  111 | tom    |   18 |
+|  114 | bhavik |   12 |
++------+--------+------+
+7 rows in set (0.001 sec)
+
+MariaDB [life]> select distinct age from present order by age desc;
++------+
+| age  |
++------+
+|   75 |
+|   70 |
+|   20 |
+|   19 |
+|   18 |
+|   12 |
++------+
+6 rows in set (0.001 sec)
+
+MariaDB [life]> select upper(name) from present;
++-------------+
+| upper(name) |
++-------------+
+| DIPESH      |
+| DHANU       |
+| DHIRAJ      |
+| TOM         |
+| JERRY       |
+| BAVIK       |
+| BHAVIK      |
+| JERRY       |
+| JERRY       |
+| JERRY       |
++-------------+
+10 rows in set (0.024 sec)
+
+MariaDB [life]> select lower(name) from present;
++-------------+
+| lower(name) |
++-------------+
+| dipesh      |
+| dhanu       |
+| dhiraj      |
+| tom         |
+| jerry       |
+| bavik       |
+| bhavik      |
+| jerry       |
+| jerry       |
+| jerry       |
++-------------+
+10 rows in set (0.001 sec)
+
+MariaDB [life]> select ul(name) from present;
+ERROR 1305 (42000): FUNCTION life.ul does not exist
+MariaDB [life]> select u(name) from present;
+ERROR 1305 (42000): FUNCTION life.u does not exist
+MariaDB [life]> select lower(*) from present;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '*) from present' at line 1
+MariaDB [life]> select power(2,3);
++------------+
+| power(2,3) |
++------------+
+|          8 |
++------------+
+1 row in set (0.026 sec)
+
+MariaDB [life]> select power(2,5);
++------------+
+| power(2,5) |
++------------+
+|         32 |
++------------+
+1 row in set (0.000 sec)
+
+MariaDB [life]> select trim("    tom   ");
++--------------------+
+| trim("    tom   ") |
++--------------------+
+| tom                |
++--------------------+
+1 row in set (0.012 sec)
+
+MariaDB [life]> select trim("    tom   ") as str;
++-----+
+| str |
++-----+
+| tom |
++-----+
+1 row in set (0.001 sec)
+
+MariaDB [life]> select "    tom   " as str;
++------------+
+| str        |
++------------+
+|     tom    |
++------------+
+1 row in set (0.001 sec)
+
+MariaDB [life]> select ltrim("    tom   ") as str;
++--------+
+| str    |
++--------+
+| tom    |
++--------+
+1 row in set (0.009 sec)
+
+MariaDB [life]> select rtrim("    tom   ") as str;
++---------+
+| str     |
++---------+
+|     tom |
++---------+
+1 row in set (0.010 sec)
+
+MariaDB [life]> select abs(-2);
++---------+
+| abs(-2) |
++---------+
+|       2 |
++---------+
+1 row in set (0.015 sec)
+
+MariaDB [life]> select abs(2);
++--------+
+| abs(2) |
++--------+
+|      2 |
++--------+
+1 row in set (0.000 sec)
+
+MariaDB [life]> select abs(2) as absolute value
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'value' at line 1
+MariaDB [life]> select abs(2) as absolutevalue
+    -> ;
++---------------+
+| absolutevalue |
++---------------+
+|             2 |
++---------------+
+1 row in set (0.000 sec)
+
+MariaDB [life]> select exp(20.5);
++-------------------+
+| exp(20.5)         |
++-------------------+
+| 799902177.4755054 |
++-------------------+
+1 row in set (0.035 sec)
+
+MariaDB [life]> select exp(2);
++------------------+
+| exp(2)           |
++------------------+
+| 7.38905609893065 |
++------------------+
+1 row in set (0.000 sec)
+
+MariaDB [life]> log(2);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'log(2)' at line 1
+MariaDB [life]> select log(2);
++--------------------+
+| log(2)             |
++--------------------+
+| 0.6931471805599453 |
++--------------------+
+1 row in set (0.000 sec)
+
+MariaDB [life]> select sqrt(16);
++----------+
+| sqrt(16) |
++----------+
+|        4 |
++----------+
+1 row in set (0.000 sec)
+
+MariaDB [life]> select sqrt(3);
++--------------------+
+| sqrt(3)            |
++--------------------+
+| 1.7320508075688772 |
++--------------------+
+1 row in set (0.000 sec)
+
+MariaDB [life]> select round(9.5);
++------------+
+| round(9.5) |
++------------+
+|         10 |
++------------+
+1 row in set (0.028 sec)
+
+MariaDB [life]> select round(9.4);
++------------+
+| round(9.4) |
++------------+
+|          9 |
++------------+
+1 row in set (0.000 sec)
+
+MariaDB [life]> select round(9.44444444444444);
++-------------------------+
+| round(9.44444444444444) |
++-------------------------+
+|                       9 |
++-------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [life]> select sign(-4);
++----------+
+| sign(-4) |
++----------+
+|       -1 |
++----------+
+1 row in set (0.000 sec)
+
+MariaDB [life]> select sign(4);
++---------+
+| sign(4) |
++---------+
+|       1 |
++---------+
+1 row in set (0.000 sec)
+
+MariaDB [life]> select sign(0);
++---------+
+| sign(0) |
++---------+
+|       0 |
++---------+
+1 row in set (0.000 sec)
+
+MariaDB [life]> select current_date();
++----------------+
+| current_date() |
++----------------+
+| 2022-07-12     |
++----------------+
+1 row in set (0.024 sec)
+
+MariaDB [life]> select now();
++---------------------+
+| now()               |
++---------------------+
+| 2022-07-12 08:06:04 |
++---------------------+
+1 row in set (0.000 sec)
+
+MariaDB [life]> select last_day(now());
++-----------------+
+| last_day(now()) |
++-----------------+
+| 2022-07-31      |
++-----------------+
+1 row in set (0.001 sec)
+
+MariaDB [life]> select substr('this is pen',2,5);
++---------------------------+
+| substr('this is pen',2,5) |
++---------------------------+
+| his i                     |
++---------------------------+
+1 row in set (0.008 sec)
+
+MariaDB [life]> select substr('this is pen',2,7);
++---------------------------+
+| substr('this is pen',2,7) |
++---------------------------+
+| his is                    |
++---------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [life]> select substr('this is pen',2,8);
++---------------------------+
+| substr('this is pen',2,8) |
++---------------------------+
+| his is p                  |
++---------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [life]> desc present;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int(11)     | YES  |     | NULL    |       |
+| name  | varchar(80) | YES  |     | NULL    |       |
+| age   | int(11)     | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.010 sec)
+
+MariaDB [life]>
+MariaDB [life]> desc future;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int(11)     | YES  |     | NULL    |       |
+| name  | varchar(90) | YES  |     | NULL    |       |
+| age   | int(11)     | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.013 sec)
+
+MariaDB [life]> alter table future
+    -> add salary decimal(8,2) after age;
+Query OK, 0 rows affected (0.208 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [life]> desc future;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| id     | int(11)      | YES  |     | NULL    |       |
+| name   | varchar(90)  | YES  |     | NULL    |       |
+| age    | int(11)      | YES  |     | NULL    |       |
+| salary | decimal(8,2) | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+4 rows in set (0.016 sec)
+
+MariaDB [life]> alter table future
+    -> add address decimal(8,2) after name;
+Query OK, 0 rows affected (0.100 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [life]> desc future;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| id      | int(11)      | YES  |     | NULL    |       |
+| name    | varchar(90)  | YES  |     | NULL    |       |
+| address | decimal(8,2) | YES  |     | NULL    |       |
+| age     | int(11)      | YES  |     | NULL    |       |
+| salary  | decimal(8,2) | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+5 rows in set (0.014 sec)
+
+MariaDB [life]> alter table future
+    -> change address address varchar(20);
+Query OK, 3 rows affected (1.064 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [life]> desc future;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| id      | int(11)      | YES  |     | NULL    |       |
+| name    | varchar(90)  | YES  |     | NULL    |       |
+| address | varchar(20)  | YES  |     | NULL    |       |
+| age     | int(11)      | YES  |     | NULL    |       |
+| salary  | decimal(8,2) | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+5 rows in set (0.026 sec)
+
+MariaDB [life]> alter table future
+    -> change address location varchar(20);
+Query OK, 0 rows affected (0.116 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [life]> desc future;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| id       | int(11)      | YES  |     | NULL    |       |
+| name     | varchar(90)  | YES  |     | NULL    |       |
+| location | varchar(20)  | YES  |     | NULL    |       |
+| age      | int(11)      | YES  |     | NULL    |       |
+| salary   | decimal(8,2) | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+5 rows in set (0.010 sec)
+
+MariaDB [life]> alter table future
+    -> change location location varchar(30);
+Query OK, 0 rows affected (0.068 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [life]> desc future;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| id       | int(11)      | YES  |     | NULL    |       |
+| name     | varchar(90)  | YES  |     | NULL    |       |
+| location | varchar(30)  | YES  |     | NULL    |       |
+| age      | int(11)      | YES  |     | NULL    |       |
+| salary   | decimal(8,2) | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+5 rows in set (0.012 sec)
+
+MariaDB [life]> alter table future
+    -> change location address varchar(30),
+    -> change name fullname varchar(20);
+Query OK, 3 rows affected (0.876 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [life]> desc future;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| id       | int(11)      | YES  |     | NULL    |       |
+| fullname | varchar(20)  | YES  |     | NULL    |       |
+| address  | varchar(30)  | YES  |     | NULL    |       |
+| age      | int(11)      | YES  |     | NULL    |       |
+| salary   | decimal(8,2) | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+5 rows in set (0.013 sec)
+
+MariaDB [life]> select * from present;
++------+--------+------+
+| id   | name   | age  |
++------+--------+------+
+|    1 | dipesh |   70 |
+|    2 | dhanu  |   75 |
+|    3 | dhiraj |   70 |
+|  111 | tom    |   18 |
+|  112 | jerry  |   19 |
+|  113 | bavik  |   20 |
+|  114 | bhavik |   12 |
+|  112 | jerry  |   19 |
+|  112 | jerry  |   19 |
+|  112 | jerry  |   19 |
++------+--------+------+
+10 rows in set (0.001 sec)
+
+MariaDB [life]> alter table future
+    -> ;
+Query OK, 0 rows affected (0.001 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [life]> desc future;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| id       | int(11)      | YES  |     | NULL    |       |
+| fullname | varchar(20)  | YES  |     | NULL    |       |
+| address  | varchar(30)  | YES  |     | NULL    |       |
+| age      | int(11)      | YES  |     | NULL    |       |
+| salary   | decimal(8,2) | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+5 rows in set (0.011 sec)
+
+MariaDB [life]> alter table present
+    -> add address varchar(20),
+    -> add cd datetime;
+Query OK, 0 rows affected (0.170 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [life]> desc present;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| id      | int(11)     | YES  |     | NULL    |       |
+| name    | varchar(80) | YES  |     | NULL    |       |
+| age     | int(11)     | YES  |     | NULL    |       |
+| address | varchar(20) | YES  |     | NULL    |       |
+| cd      | datetime    | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.041 sec)
+
+MariaDB [life]> select * from present;
++------+--------+------+---------+------+
+| id   | name   | age  | address | cd   |
++------+--------+------+---------+------+
+|    1 | dipesh |   70 | NULL    | NULL |
+|    2 | dhanu  |   75 | NULL    | NULL |
+|    3 | dhiraj |   70 | NULL    | NULL |
+|  111 | tom    |   18 | NULL    | NULL |
+|  112 | jerry  |   19 | NULL    | NULL |
+|  113 | bavik  |   20 | NULL    | NULL |
+|  114 | bhavik |   12 | NULL    | NULL |
+|  112 | jerry  |   19 | NULL    | NULL |
+|  112 | jerry  |   19 | NULL    | NULL |
+|  112 | jerry  |   19 | NULL    | NULL |
++------+--------+------+---------+------+
+10 rows in set (0.001 sec)
+
+MariaDB [life]> update present cd=now();
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '=now()' at line 1
+MariaDB [life]> update present cd='now()';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '='now()'' at line 1
+MariaDB [life]> update present cd='ss';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '='ss'' at line 1
+MariaDB [life]> update present cd='2016-09-09';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '='2016-09-09'' at line 1
+MariaDB [life]> update present set cd=now();
+Query OK, 10 rows affected (0.074 sec)
+Rows matched: 10  Changed: 10  Warnings: 0
+
+MariaDB [life]> select * from present;
++------+--------+------+---------+---------------------+
+| id   | name   | age  | address | cd                  |
++------+--------+------+---------+---------------------+
+|    1 | dipesh |   70 | NULL    | 2022-07-12 08:27:29 |
+|    2 | dhanu  |   75 | NULL    | 2022-07-12 08:27:29 |
+|    3 | dhiraj |   70 | NULL    | 2022-07-12 08:27:29 |
+|  111 | tom    |   18 | NULL    | 2022-07-12 08:27:29 |
+|  112 | jerry  |   19 | NULL    | 2022-07-12 08:27:29 |
+|  113 | bavik  |   20 | NULL    | 2022-07-12 08:27:29 |
+|  114 | bhavik |   12 | NULL    | 2022-07-12 08:27:29 |
+|  112 | jerry  |   19 | NULL    | 2022-07-12 08:27:29 |
+|  112 | jerry  |   19 | NULL    | 2022-07-12 08:27:29 |
+|  112 | jerry  |   19 | NULL    | 2022-07-12 08:27:29 |
++------+--------+------+---------+---------------------+
+10 rows in set (0.001 sec)
+
+MariaDB [life]>
