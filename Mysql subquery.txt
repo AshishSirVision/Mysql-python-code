@@ -1,0 +1,799 @@
+https://www.itl.nist.gov/div897/ctg/dm/sql_examples.htm
+____________________________________________________
+
+
+drop table station;
+CREATE TABLE STATION
+(
+   ID INTEGER PRIMARY KEY,
+   CITY CHAR(20),
+  STATE CHAR(2),
+   LAT_N REAL,
+   LONG_W REAL
+);
+
+INSERT INTO STATION 
+VALUES 
+(13, 'Phoenix', 'AZ', 33, 112);
+
+INSERT INTO STATION VALUES (44, 'Denver', 'CO', 40, 105);
+INSERT INTO STATION VALUES (66, 'Caribou', 'ME', 47, 68);
+
+
+SELECT * FROM STATION;
+
+SELECT * FROM STATION
+WHERE LAT_N > 39.7;
+
+SELECT ID, CITY, STATE FROM STATION
+WHERE LAT_N > 39.7;
+
+CREATE TABLE STATS
+(
+ID INTEGER REFERENCES STATION(ID),
+MONTH INTEGER CHECK (MONTH BETWEEN 1 AND 12),
+TEMP_F REAL CHECK (TEMP_F BETWEEN -80 AND 150),
+RAIN_I REAL CHECK (RAIN_I BETWEEN 0 AND 100),
+ PRIMARY KEY (ID, MONTH)
+);
+
+
+
+
+SELECT * FROM STATION
+WHERE Lat_N < (SELECT AVG(TEMP_F) FROM STATS
+WHERE STATION.ID = STATS.ID);
+
+
+SELECT * FROM STATION
+WHERE id < (SELECT AVG(TEMP_F) FROM STATS
+WHERE STATION.ID = STATS.ID);
+
+SELECT * FROM STATION
+WHERE id < (SELECT AVG(TEMP_F)-20 FROM STATS
+WHERE STATION.ID = STATS.ID);
+
+SELECT * FROM STATION
+WHERE 50 < (SELECT AVG(TEMP_F)-20 FROM STATS
+WHERE STATION.ID = STATS.ID);
+
+SELECT * FROM STATION
+WHERE lat_n < (SELECT AVG(TEMP_F)-26 FROM STATS
+WHERE STATION.ID = STATS.ID);
+
+create view vjoin as
+SELECT * FROM STATION
+WHERE id < (SELECT AVG(TEMP_F)-20 FROM STATS
+WHERE STATION.ID = STATS.ID);
+
+
+create view vjoin1  (a,b,c,d,e) as
+SELECT * FROM STATION
+WHERE id < (SELECT AVG(TEMP_F)-20 FROM STATS
+WHERE STATION.ID = STATS.ID);
+
+________________________________________________________________________
+MariaDB [advantech]> drop table station;
+Query OK, 0 rows affected (0.309 sec)
+
+MariaDB [advantech]> CREATE TABLE STATION
+    -> (
+    ->    ID INTEGER PRIMARY KEY,
+    ->    CITY CHAR(20),
+    ->   STATE CHAR(2),
+    ->    LAT_N REAL,
+    ->    LONG_W REAL
+    -> );
+Query OK, 0 rows affected (0.204 sec)
+
+MariaDB [advantech]>
+MariaDB [advantech]> INSERT INTO STATION
+    -> VALUES
+    -> (13, 'Phoenix', 'AZ', 33, 112);
+Query OK, 1 row affected (0.039 sec)
+
+MariaDB [advantech]>
+MariaDB [advantech]> INSERT INTO STATION VALUES (44, 'Denver', 'CO', 40, 105);
+Query OK, 1 row affected (0.039 sec)
+
+MariaDB [advantech]> INSERT INTO STATION VALUES (66, 'Caribou', 'ME', 47, 68);
+Query OK, 1 row affected (0.064 sec)
+
+MariaDB [advantech]>
+MariaDB [advantech]>
+MariaDB [advantech]> SELECT * FROM STATION;
++----+---------+-------+-------+--------+
+| ID | CITY    | STATE | LAT_N | LONG_W |
++----+---------+-------+-------+--------+
+| 13 | Phoenix | AZ    |    33 |    112 |
+| 44 | Denver  | CO    |    40 |    105 |
+| 66 | Caribou | ME    |    47 |     68 |
++----+---------+-------+-------+--------+
+3 rows in set (0.030 sec)
+
+MariaDB [advantech]>
+MariaDB [advantech]> SELECT * FROM STATION
+    -> WHERE LAT_N > 39.7;
++----+---------+-------+-------+--------+
+| ID | CITY    | STATE | LAT_N | LONG_W |
++----+---------+-------+-------+--------+
+| 44 | Denver  | CO    |    40 |    105 |
+| 66 | Caribou | ME    |    47 |     68 |
++----+---------+-------+-------+--------+
+2 rows in set (0.000 sec)
+
+MariaDB [advantech]>
+MariaDB [advantech]> SELECT ID, CITY, STATE FROM STATION
+    -> WHERE LAT_N > 39.7;
++----+---------+-------+
+| ID | CITY    | STATE |
++----+---------+-------+
+| 44 | Denver  | CO    |
+| 66 | Caribou | ME    |
++----+---------+-------+
+2 rows in set (0.000 sec)
+
+MariaDB [advantech]> SELECT * FROM STATION;
++----+---------+-------+-------+--------+
+| ID | CITY    | STATE | LAT_N | LONG_W |
++----+---------+-------+-------+--------+
+| 13 | Phoenix | AZ    |    33 |    112 |
+| 44 | Denver  | CO    |    40 |    105 |
+| 66 | Caribou | ME    |    47 |     68 |
++----+---------+-------+-------+--------+
+3 rows in set (0.001 sec)
+
+MariaDB [advantech]> desc station;
++--------+----------+------+-----+---------+-------+
+| Field  | Type     | Null | Key | Default | Extra |
++--------+----------+------+-----+---------+-------+
+| ID     | int(11)  | NO   | PRI | NULL    |       |
+| CITY   | char(20) | YES  |     | NULL    |       |
+| STATE  | char(2)  | YES  |     | NULL    |       |
+| LAT_N  | double   | YES  |     | NULL    |       |
+| LONG_W | double   | YES  |     | NULL    |       |
++--------+----------+------+-----+---------+-------+
+5 rows in set (0.013 sec)
+
+MariaDB [advantech]> INSERT INTO STATION VALUES (44, 'Denver', 'CO', 40, 105);
+ERROR 1062 (23000): Duplicate entry '44' for key 'PRIMARY'
+MariaDB [advantech]> INSERT INTO STATION VALUES (54, 'Denver', 'CO', 40, 105);
+Query OK, 1 row affected (0.035 sec)
+
+MariaDB [advantech]> SELECT * FROM STATION;
++----+---------+-------+-------+--------+
+| ID | CITY    | STATE | LAT_N | LONG_W |
++----+---------+-------+-------+--------+
+| 13 | Phoenix | AZ    |    33 |    112 |
+| 44 | Denver  | CO    |    40 |    105 |
+| 54 | Denver  | CO    |    40 |    105 |
+| 66 | Caribou | ME    |    47 |     68 |
++----+---------+-------+-------+--------+
+4 rows in set (0.000 sec)
+
+MariaDB [advantech]>
+MariaDB [advantech]> CREATE TABLE STATS
+    -> (
+    -> ID INTEGER REFERENCES STATION(ID),
+    -> MONTH INTEGER CHECK (MONTH BETWEEN 1 AND 12),
+    -> TEMP_F REAL CHECK (TEMP_F BETWEEN -80 AND 150),
+    -> RAIN_I REAL CHECK (RAIN_I BETWEEN 0 AND 100),
+    ->  PRIMARY KEY (ID, MONTH)
+    -> );
+Query OK, 0 rows affected (0.287 sec)
+
+MariaDB [advantech]> desc stats;
++--------+---------+------+-----+---------+-------+| Field  | Type    | Null | Key | Default | Extra |+--------+---------+------+-----+---------+-------+| ID     | int(11) | NO   | PRI | NULL    |       || MONTH  | int(11) | NO   | PRI | NULL    |       || TEMP_F | double  | YES  |     | NULL    |       || RAIN_I | double  | YES  |     | NULL    |       |+--------+---------+------+-----+---------+-------+4 rows in set (0.044 sec)
+
+MariaDB [advantech]> INSERT INTO STATS VALUES (13, 1, 57.4, 0.31);
+Query OK, 1 row affected (0.070 sec)
+
+MariaDB [advantech]> INSERT INTO STATS VALUES (13, 7, 91.7, 5.15);
+Query OK, 1 row affected (0.028 sec)
+
+MariaDB [advantech]> INSERT INTO STATS VALUES (44, 1, 27.3, 0.18);
+Query OK, 1 row affected (0.061 sec)
+
+MariaDB [advantech]> INSERT INTO STATS VALUES (44, 7, 74.8, 2.11);
+Query OK, 1 row affected (0.111 sec)
+
+MariaDB [advantech]> INSERT INTO STATS VALUES (66, 1, 6.7, 2.10);
+Query OK, 1 row affected (0.080 sec)
+
+MariaDB [advantech]> INSERT INTO STATS VALUES (66, 7, 65.8, 4.52);
+Query OK, 1 row affected (0.049 sec)
+
+MariaDB [advantech]> select * from STATS;
++----+-------+--------+--------+
+| ID | MONTH | TEMP_F | RAIN_I |
++----+-------+--------+--------+
+| 13 |     1 |   57.4 |   0.31 |
+| 13 |     7 |   91.7 |   5.15 |
+| 44 |     1 |   27.3 |   0.18 |
+| 44 |     7 |   74.8 |   2.11 |
+| 66 |     1 |    6.7 |    2.1 |
+| 66 |     7 |   65.8 |   4.52 |
++----+-------+--------+--------+
+6 rows in set (0.011 sec)
+
+MariaDB [advantech]> INSERT INTO STATS VALUES (66, 7, 65.8, 4.52);
+ERROR 1062 (23000): Duplicate entry '66-7' for key 'PRIMARY'
+MariaDB [advantech]> select * from station,STATS
+    -> where station.id=stats.id;
++----+---------+-------+-------+--------+----+-------+--------+--------+
+| ID | CITY    | STATE | LAT_N | LONG_W | ID | MONTH | TEMP_F | RAIN_I |
++----+---------+-------+-------+--------+----+-------+--------+--------+
+| 13 | Phoenix | AZ    |    33 |    112 | 13 |     1 |   57.4 |   0.31 |
+| 13 | Phoenix | AZ    |    33 |    112 | 13 |     7 |   91.7 |   5.15 |
+| 44 | Denver  | CO    |    40 |    105 | 44 |     1 |   27.3 |   0.18 |
+| 44 | Denver  | CO    |    40 |    105 | 44 |     7 |   74.8 |   2.11 |
+| 66 | Caribou | ME    |    47 |     68 | 66 |     1 |    6.7 |    2.1 |
+| 66 | Caribou | ME    |    47 |     68 | 66 |     7 |   65.8 |   4.52 |
++----+---------+-------+-------+--------+----+-------+--------+--------+
+6 rows in set (0.088 sec)
+
+MariaDB [advantech]> select * from station,STATS
+    -> ;
++----+---------+-------+-------+--------+----+-------+--------+--------+
+| ID | CITY    | STATE | LAT_N | LONG_W | ID | MONTH | TEMP_F | RAIN_I |
++----+---------+-------+-------+--------+----+-------+--------+--------+
+| 13 | Phoenix | AZ    |    33 |    112 | 13 |     1 |   57.4 |   0.31 |
+| 44 | Denver  | CO    |    40 |    105 | 13 |     1 |   57.4 |   0.31 |
+| 54 | Denver  | CO    |    40 |    105 | 13 |     1 |   57.4 |   0.31 |
+| 66 | Caribou | ME    |    47 |     68 | 13 |     1 |   57.4 |   0.31 |
+| 13 | Phoenix | AZ    |    33 |    112 | 13 |     7 |   91.7 |   5.15 |
+| 44 | Denver  | CO    |    40 |    105 | 13 |     7 |   91.7 |   5.15 |
+| 54 | Denver  | CO    |    40 |    105 | 13 |     7 |   91.7 |   5.15 |
+| 66 | Caribou | ME    |    47 |     68 | 13 |     7 |   91.7 |   5.15 |
+| 13 | Phoenix | AZ    |    33 |    112 | 44 |     1 |   27.3 |   0.18 |
+| 44 | Denver  | CO    |    40 |    105 | 44 |     1 |   27.3 |   0.18 |
+| 54 | Denver  | CO    |    40 |    105 | 44 |     1 |   27.3 |   0.18 |
+| 66 | Caribou | ME    |    47 |     68 | 44 |     1 |   27.3 |   0.18 |
+| 13 | Phoenix | AZ    |    33 |    112 | 44 |     7 |   74.8 |   2.11 |
+| 44 | Denver  | CO    |    40 |    105 | 44 |     7 |   74.8 |   2.11 |
+| 54 | Denver  | CO    |    40 |    105 | 44 |     7 |   74.8 |   2.11 |
+| 66 | Caribou | ME    |    47 |     68 | 44 |     7 |   74.8 |   2.11 |
+| 13 | Phoenix | AZ    |    33 |    112 | 66 |     1 |    6.7 |    2.1 |
+| 44 | Denver  | CO    |    40 |    105 | 66 |     1 |    6.7 |    2.1 |
+| 54 | Denver  | CO    |    40 |    105 | 66 |     1 |    6.7 |    2.1 |
+| 66 | Caribou | ME    |    47 |     68 | 66 |     1 |    6.7 |    2.1 |
+| 13 | Phoenix | AZ    |    33 |    112 | 66 |     7 |   65.8 |   4.52 |
+| 44 | Denver  | CO    |    40 |    105 | 66 |     7 |   65.8 |   4.52 |
+| 54 | Denver  | CO    |    40 |    105 | 66 |     7 |   65.8 |   4.52 |
+| 66 | Caribou | ME    |    47 |     68 | 66 |     7 |   65.8 |   4.52 |
++----+---------+-------+-------+--------+----+-------+--------+--------+
+24 rows in set (0.010 sec)
+
+MariaDB [advantech]> SELECT MAX(TEMP_F), MIN(TEMP_F), AVG(RAIN_I), ID
+    -> FROM STATS
+    -> GROUP BY ID;
++-------------+-------------+--------------------+----+
+| MAX(TEMP_F) | MIN(TEMP_F) | AVG(RAIN_I)        | ID |
++-------------+-------------+--------------------+----+
+|        91.7 |        57.4 |               2.73 | 13 |
+|        74.8 |        27.3 |              1.145 | 44 |
+|        65.8 |         6.7 | 3.3099999999999996 | 66 |
++-------------+-------------+--------------------+----+
+3 rows in set (0.037 sec)
+
+MariaDB [advantech]> SELECT MAX(TEMP_F), MIN(TEMP_F), AVG(RAIN_I), ID
+    -> FROM STATS;
++-------------+-------------+-------------+------+
+| MAX(TEMP_F) | MIN(TEMP_F) | AVG(RAIN_I) | ID   |
++-------------+-------------+-------------+------+
+|        91.7 |         6.7 |       2.395 |   13 |
++-------------+-------------+-------------+------+
+1 row in set (0.013 sec)
+
+MariaDB [advantech]> SELECT * from stats;
++----+-------+--------+--------+
+| ID | MONTH | TEMP_F | RAIN_I |
++----+-------+--------+--------+
+| 13 |     1 |   57.4 |   0.31 |
+| 13 |     7 |   91.7 |   5.15 |
+| 44 |     1 |   27.3 |   0.18 |
+| 44 |     7 |   74.8 |   2.11 |
+| 66 |     1 |    6.7 |    2.1 |
+| 66 |     7 |   65.8 |   4.52 |
++----+-------+--------+--------+
+6 rows in set (0.000 sec)
+
+MariaDB [advantech]> SELECT MAX(TEMP_F), MIN(TEMP_F), AVG(RAIN_I), ID
+    -> FROM STATS;
++-------------+-------------+-------------+------+
+| MAX(TEMP_F) | MIN(TEMP_F) | AVG(RAIN_I) | ID   |
++-------------+-------------+-------------+------+
+|        91.7 |         6.7 |       2.395 |   13 |
++-------------+-------------+-------------+------+
+1 row in set (0.000 sec)
+
+MariaDB [advantech]> SELECT MAX(TEMP_F), MIN(TEMP_F), AVG(RAIN_I), ID
+    -> FROM STATS
+    -> GROUP BY month;
++-------------+-------------+--------------------+----+
+| MAX(TEMP_F) | MIN(TEMP_F) | AVG(RAIN_I)        | ID |
++-------------+-------------+--------------------+----+
+|        57.4 |         6.7 | 0.8633333333333333 | 13 |
+|        91.7 |        65.8 | 3.9266666666666663 | 13 |
++-------------+-------------+--------------------+----+
+2 rows in set (0.016 sec)
+
+MariaDB [advantech]> SELECT MAX(TEMP_F), MIN(TEMP_F), AVG(RAIN_I), ID
+    -> ;
+ERROR 1054 (42S22): Unknown column 'TEMP_F' in 'field list'
+MariaDB [advantech]> SELECT id,temp_f
+    -> from stats
+    -> GROUP BY month;
++----+--------+
+| id | temp_f |
++----+--------+
+| 13 |   57.4 |
+| 13 |   91.7 |
++----+--------+
+2 rows in set (0.021 sec)
+
+MariaDB [advantech]> SELECT * FROM STATION
+    -> WHERE 50;
++----+---------+-------+-------+--------+
+| ID | CITY    | STATE | LAT_N | LONG_W |
++----+---------+-------+-------+--------+
+| 13 | Phoenix | AZ    |    33 |    112 |
+| 44 | Denver  | CO    |    40 |    105 |
+| 54 | Denver  | CO    |    40 |    105 |
+| 66 | Caribou | ME    |    47 |     68 |
++----+---------+-------+-------+--------+
+4 rows in set (0.001 sec)
+
+MariaDB [advantech]> SELECT * FROM STATION
+    -> WHERE id<50;
++----+---------+-------+-------+--------+
+| ID | CITY    | STATE | LAT_N | LONG_W |
++----+---------+-------+-------+--------+
+| 13 | Phoenix | AZ    |    33 |    112 |
+| 44 | Denver  | CO    |    40 |    105 |
++----+---------+-------+-------+--------+
+2 rows in set (0.022 sec)
+
+MariaDB [advantech]> SELECT * FROM STATION
+    -> WHERE 0;
+Empty set (0.000 sec)
+
+MariaDB [advantech]> SELECT AVG(TEMP_F) FROM STATS
+    -> WHERE STATION.ID = STATS.ID;
+ERROR 1054 (42S22): Unknown column 'STATION.ID' in 'where clause'
+MariaDB [advantech]> SELECT AVG(TEMP_F),id FROM STATS
+    -> WHERE STATION.ID = STATS.ID;
+ERROR 1054 (42S22): Unknown column 'STATION.ID' in 'where clause'
+MariaDB [advantech]> SELECT AVG(TEMP_F) FROM STATS
+    -> ,station WHERE STATION.ID = STATS.ID;
++--------------------+
+| AVG(TEMP_F)        |
++--------------------+
+| 53.949999999999996 |
++--------------------+
+1 row in set (0.001 sec)
+
+MariaDB [advantech]> SELECT * FROM STATION
+    -> WHERE 50 < (SELECT AVG(TEMP_F) FROM STATS
+    -> WHERE STATION.ID = STATS.ID);
++----+---------+-------+-------+--------+
+| ID | CITY    | STATE | LAT_N | LONG_W |
++----+---------+-------+-------+--------+
+| 13 | Phoenix | AZ    |    33 |    112 |
+| 44 | Denver  | CO    |    40 |    105 |
++----+---------+-------+-------+--------+
+2 rows in set (0.078 sec)
+
+MariaDB [advantech]> SELECT * FROM STATION
+    -> WHERE 50 < (53.34);
++----+---------+-------+-------+--------+
+| ID | CITY    | STATE | LAT_N | LONG_W |
++----+---------+-------+-------+--------+
+| 13 | Phoenix | AZ    |    33 |    112 |
+| 44 | Denver  | CO    |    40 |    105 |
+| 54 | Denver  | CO    |    40 |    105 |
+| 66 | Caribou | ME    |    47 |     68 |
++----+---------+-------+-------+--------+
+4 rows in set (0.026 sec)
+
+MariaDB [advantech]> SELECT * FROM STATION
+    -> WHERE 50 < station.id;
++----+---------+-------+-------+--------+
+| ID | CITY    | STATE | LAT_N | LONG_W |
++----+---------+-------+-------+--------+
+| 54 | Denver  | CO    |    40 |    105 |
+| 66 | Caribou | ME    |    47 |     68 |
++----+---------+-------+-------+--------+
+2 rows in set (0.001 sec)
+
+MariaDB [advantech]> SELECT * FROM STATION
+    -> WHERE 50 < 53.94;
++----+---------+-------+-------+--------+
+| ID | CITY    | STATE | LAT_N | LONG_W |
++----+---------+-------+-------+--------+
+| 13 | Phoenix | AZ    |    33 |    112 |
+| 44 | Denver  | CO    |    40 |    105 |
+| 54 | Denver  | CO    |    40 |    105 |
+| 66 | Caribou | ME    |    47 |     68 |
++----+---------+-------+-------+--------+
+4 rows in set (0.000 sec)
+
+MariaDB [advantech]> SELECT * FROM STATION
+    -> ,stats WHERE 50 < AVg(temp_F);
+ERROR 1111 (HY000): Invalid use of group function
+MariaDB [advantech]> SELECT * FROM STATION
+    -> ,stats WHERE 50 < AVg(temp_F) group by id;
+ERROR 1111 (HY000): Invalid use of group function
+MariaDB [advantech]> SELECT * FROM STATION
+    -> WHERE 50 < (SELECT AVG(TEMP_F) FROM STATS
+    -> WHERE STATION.ID = STATS.ID);
++----+---------+-------+-------+--------+
+| ID | CITY    | STATE | LAT_N | LONG_W |
++----+---------+-------+-------+--------+
+| 13 | Phoenix | AZ    |    33 |    112 |
+| 44 | Denver  | CO    |    40 |    105 |
++----+---------+-------+-------+--------+
+2 rows in set (0.001 sec)
+
+MariaDB [advantech]> SELECT * FROM STATION
+    -> WHERE 39 < (SELECT AVG(TEMP_F) FROM STATS
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 2
+MariaDB [advantech]> SELECT * FROM STATION
+    -> WHERE 39 < (SELECT AVG(TEMP_F) FROM STATS
+    -> WHERE STATION.ID = STATS.ID);
++----+---------+-------+-------+--------+
+| ID | CITY    | STATE | LAT_N | LONG_W |
++----+---------+-------+-------+--------+
+| 13 | Phoenix | AZ    |    33 |    112 |
+| 44 | Denver  | CO    |    40 |    105 |
++----+---------+-------+-------+--------+
+2 rows in set (0.001 sec)
+
+MariaDB [advantech]> SELECT * FROM STATION
+    -> WHERE Lat_N < (SELECT AVG(TEMP_F) FROM STATS
+    -> WHERE STATION.ID = STATS.ID);
++----+---------+-------+-------+--------+
+| ID | CITY    | STATE | LAT_N | LONG_W |
++----+---------+-------+-------+--------+
+| 13 | Phoenix | AZ    |    33 |    112 |
+| 44 | Denver  | CO    |    40 |    105 |
++----+---------+-------+-------+--------+
+2 rows in set (0.001 sec)
+
+MariaDB [advantech]> SELECT * FROM STATION;
++----+---------+-------+-------+--------+
+| ID | CITY    | STATE | LAT_N | LONG_W |
++----+---------+-------+-------+--------+
+| 13 | Phoenix | AZ    |    33 |    112 |
+| 44 | Denver  | CO    |    40 |    105 |
+| 54 | Denver  | CO    |    40 |    105 |
+| 66 | Caribou | ME    |    47 |     68 |
++----+---------+-------+-------+--------+
+4 rows in set (0.000 sec)
+
+MariaDB [advantech]> SELECT * FROM STATION
+    -> WHERE id < (SELECT AVG(TEMP_F) FROM STATS
+    -> WHERE STATION.ID = STATS.ID);
++----+---------+-------+-------+--------+
+| ID | CITY    | STATE | LAT_N | LONG_W |
++----+---------+-------+-------+--------+
+| 13 | Phoenix | AZ    |    33 |    112 |
+| 44 | Denver  | CO    |    40 |    105 |
++----+---------+-------+-------+--------+
+2 rows in set (0.001 sec)
+
+MariaDB [advantech]> SELECT * FROM STATION
+    -> WHERE id < 65-(SELECT AVG(TEMP_F) FROM STATS
+    -> WHERE STATION.ID = STATS.ID);
+Empty set (0.017 sec)
+
+MariaDB [advantech]> SELECT * FROM STATION
+    -> WHERE id < (SELECT AVG(TEMP_F)-20 FROM STATS
+    -> WHERE STATION.ID = STATS.ID);
++----+---------+-------+-------+--------+
+| ID | CITY    | STATE | LAT_N | LONG_W |
++----+---------+-------+-------+--------+
+| 13 | Phoenix | AZ    |    33 |    112 |
++----+---------+-------+-------+--------+
+1 row in set (0.001 sec)
+
+MariaDB [advantech]> SELECT * FROM STATION
+    -> WHERE 50 < (SELECT AVG(TEMP_F)-20 FROM STATS
+    -> WHERE STATION.ID = STATS.ID);
++----+---------+-------+-------+--------+
+| ID | CITY    | STATE | LAT_N | LONG_W |
++----+---------+-------+-------+--------+
+| 13 | Phoenix | AZ    |    33 |    112 |
++----+---------+-------+-------+--------+
+1 row in set (0.001 sec)
+
+MariaDB [advantech]> SELECT * FROM STATION
+    -> WHERE lat_n < (SELECT AVG(TEMP_F)-20 FROM STATS
+    -> WHERE STATION.ID = STATS.ID);
++----+---------+-------+-------+--------+
+| ID | CITY    | STATE | LAT_N | LONG_W |
++----+---------+-------+-------+--------+
+| 13 | Phoenix | AZ    |    33 |    112 |
++----+---------+-------+-------+--------+
+1 row in set (0.001 sec)
+
+MariaDB [advantech]>
+MariaDB [advantech]> SELECT * FROM STATION
+    -> WHERE lat_n < (SELECT AVG(TEMP_F)-26 FROM STATS
+    -> WHERE STATION.ID = STATS.ID);
++----+---------+-------+-------+--------+
+| ID | CITY    | STATE | LAT_N | LONG_W |
++----+---------+-------+-------+--------+
+| 13 | Phoenix | AZ    |    33 |    112 |
++----+---------+-------+-------+--------+
+1 row in set (0.001 sec)
+
+MariaDB [advantech]> CREATE VIEW METRIC_STATS (ID, MONTH, TEMP_C, RAIN_C) AS
+    -> SELECT ID,
+    -> MONTH,
+    -> (TEMP_F - 32) * 5 /9,
+    -> RAIN_I * 0.3937
+    -> FROM STATS;
+Query OK, 0 rows affected (0.160 sec)
+
+MariaDB [advantech]> select * from metric_stats;
++----+-------+---------------------+--------------------+
+| ID | MONTH | TEMP_C              | RAIN_C             |
++----+-------+---------------------+--------------------+
+| 13 |     1 |   14.11111111111111 |           0.122047 |
+| 13 |     7 |  33.166666666666664 |           2.027555 |
+| 44 |     1 | -2.6111111111111107 |           0.070866 |
+| 44 |     7 |   23.77777777777778 |           0.830707 |
+| 66 |     1 | -14.055555555555555 |            0.82677 |
+| 66 |     7 |   18.77777777777778 | 1.7795239999999999 |
++----+-------+---------------------+--------------------+
+6 rows in set (0.027 sec)
+
+MariaDB [advantech]> SELECT ID,
+    -> MONTH,
+    -> (TEMP_F - 32) * 5 /9,
+    -> RAIN_I * 0.3937
+    -> FROM STATS;
++----+-------+----------------------+--------------------+
+| ID | MONTH | (TEMP_F - 32) * 5 /9 | RAIN_I * 0.3937    |
++----+-------+----------------------+--------------------+
+| 13 |     1 |    14.11111111111111 |           0.122047 |
+| 13 |     7 |   33.166666666666664 |           2.027555 |
+| 44 |     1 |  -2.6111111111111107 |           0.070866 |
+| 44 |     7 |    23.77777777777778 |           0.830707 |
+| 66 |     1 |  -14.055555555555555 |            0.82677 |
+| 66 |     7 |    18.77777777777778 | 1.7795239999999999 |
++----+-------+----------------------+--------------------+
+6 rows in set (0.001 sec)
+
+MariaDB [advantech]> select * from metric_stats;
++----+-------+---------------------+--------------------+
+| ID | MONTH | TEMP_C              | RAIN_C             |
++----+-------+---------------------+--------------------+
+| 13 |     1 |   14.11111111111111 |           0.122047 |
+| 13 |     7 |  33.166666666666664 |           2.027555 |
+| 44 |     1 | -2.6111111111111107 |           0.070866 |
+| 44 |     7 |   23.77777777777778 |           0.830707 |
+| 66 |     1 | -14.055555555555555 |            0.82677 |
+| 66 |     7 |   18.77777777777778 | 1.7795239999999999 |
++----+-------+---------------------+--------------------+
+6 rows in set (0.001 sec)
+
+MariaDB [advantech]>
+MariaDB [advantech]> create view vjoin
+    -> SELECT * FROM STATION
+    -> WHERE id < (SELECT AVG(TEMP_F)-20 FROM STATS
+    -> WHERE STATION.ID = STATS.ID);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'SELECT * FROM STATION
+WHERE id < (SELECT AVG(TEMP_F)-20 FROM STATS
+WHERE STAT...' at line 2
+MariaDB [advantech]>
+MariaDB [advantech]> create view vjoin as
+    -> SELECT * FROM STATION
+    -> WHERE id < (SELECT AVG(TEMP_F)-20 FROM STATS
+    -> WHERE STATION.ID = STATS.ID);
+Query OK, 0 rows affected (0.029 sec)
+
+MariaDB [advantech]> select * from vjoin;
++----+---------+-------+-------+--------+
+| ID | CITY    | STATE | LAT_N | LONG_W |
++----+---------+-------+-------+--------+
+| 13 | Phoenix | AZ    |    33 |    112 |
++----+---------+-------+-------+--------+
+1 row in set (0.002 sec)
+
+MariaDB [advantech]> create view vjoin  (a,b,c,d) as
+    -> SELECT * FROM STATION
+    -> WHERE id < (SELECT AVG(TEMP_F)-20 FROM STATS
+    -> WHERE STATION.ID = STATS.ID);
+ERROR 1353 (HY000): View's SELECT and view's field list have different column counts
+MariaDB [advantech]> create view vjoin1  (a,b,c,d,e) as
+    -> SELECT * FROM STATION
+    -> WHERE id < (SELECT AVG(TEMP_F)-20 FROM STATS
+    -> WHERE STATION.ID = STATS.ID);
+Query OK, 0 rows affected (0.012 sec)
+
+MariaDB [advantech]> select * from vjoin1;
++----+---------+------+------+------+
+| a  | b       | c    | d    | e    |
++----+---------+------+------+------+
+| 13 | Phoenix | AZ   |   33 |  112 |
++----+---------+------+------+------+
+1 row in set (0.002 sec)
+
+MariaDB [advantech]> UPDATE STATS SET RAIN_I = RAIN_I + 0.01;
+Query OK, 6 rows affected (0.048 sec)
+Rows matched: 6  Changed: 6  Warnings: 0
+
+MariaDB [advantech]> select * from stats;
++----+-------+--------+--------------------+
+| ID | MONTH | TEMP_F | RAIN_I             |
++----+-------+--------+--------------------+
+| 13 |     1 |   57.4 |               0.32 |
+| 13 |     7 |   91.7 |               5.16 |
+| 44 |     1 |   27.3 |               0.19 |
+| 44 |     7 |   74.8 | 2.1199999999999997 |
+| 66 |     1 |    6.7 |               2.11 |
+| 66 |     7 |   65.8 |  4.529999999999999 |
++----+-------+--------+--------------------+
+6 rows in set (0.001 sec)
+
+MariaDB [advantech]> UPDATE STATS SET TEMP_F = 74.9
+    -> WHERE ID = 44
+    -> AND MONTH = 7;
+Query OK, 1 row affected (0.070 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [advantech]> COMMIT WORK;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [advantech]> UPDATE STATS SET RAIN_I = 4.50
+    -> WHERE ID = 44;
+Query OK, 2 rows affected (0.062 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+MariaDB [advantech]> select * from stats;
++----+-------+--------+-------------------+
+| ID | MONTH | TEMP_F | RAIN_I            |
++----+-------+--------+-------------------+
+| 13 |     1 |   57.4 |              0.32 |
+| 13 |     7 |   91.7 |              5.16 |
+| 44 |     1 |   27.3 |               4.5 |
+| 44 |     7 |   74.9 |               4.5 |
+| 66 |     1 |    6.7 |              2.11 |
+| 66 |     7 |   65.8 | 4.529999999999999 |
++----+-------+--------+-------------------+
+6 rows in set (0.000 sec)
+
+MariaDB [advantech]> rollback work;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [advantech]> select * from stats;
++----+-------+--------+-------------------+
+| ID | MONTH | TEMP_F | RAIN_I            |
++----+-------+--------+-------------------+
+| 13 |     1 |   57.4 |              0.32 |
+| 13 |     7 |   91.7 |              5.16 |
+| 44 |     1 |   27.3 |               4.5 |
+| 44 |     7 |   74.9 |               4.5 |
+| 66 |     1 |    6.7 |              2.11 |
+| 66 |     7 |   65.8 | 4.529999999999999 |
++----+-------+--------+-------------------+
+6 rows in set (0.000 sec)
+
+MariaDB [advantech]> set autocommit off;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'off' at line 1
+MariaDB [advantech]> set autocommit=off;
+Query OK, 0 rows affected (0.012 sec)
+
+MariaDB [advantech]> UPDATE STATS SET TEMP_F = 74.9
+    -> WHERE ID = 44
+    -> AND MONTH = 1;
+Query OK, 1 row affected (0.020 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [advantech]> select * from stats;
++----+-------+--------+-------------------+
+| ID | MONTH | TEMP_F | RAIN_I            |
++----+-------+--------+-------------------+
+| 13 |     1 |   57.4 |              0.32 |
+| 13 |     7 |   91.7 |              5.16 |
+| 44 |     1 |   74.9 |               4.5 |
+| 44 |     7 |   74.9 |               4.5 |
+| 66 |     1 |    6.7 |              2.11 |
+| 66 |     7 |   65.8 | 4.529999999999999 |
++----+-------+--------+-------------------+
+6 rows in set (0.001 sec)
+
+MariaDB [advantech]> commit w;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'w' at line 1
+MariaDB [advantech]> commit work1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'work1' at line 1
+MariaDB [advantech]> commit;
+Query OK, 0 rows affected (0.051 sec)
+
+MariaDB [advantech]> UPDATE STATS SET RAIN_I = 4.50
+    -> WHERE ID = 13;
+Query OK, 2 rows affected (0.001 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+MariaDB [advantech]> select * from stats;
++----+-------+--------+-------------------+
+| ID | MONTH | TEMP_F | RAIN_I            |
++----+-------+--------+-------------------+
+| 13 |     1 |   57.4 |               4.5 |
+| 13 |     7 |   91.7 |               4.5 |
+| 44 |     1 |   74.9 |               4.5 |
+| 44 |     7 |   74.9 |               4.5 |
+| 66 |     1 |    6.7 |              2.11 |
+| 66 |     7 |   65.8 | 4.529999999999999 |
++----+-------+--------+-------------------+
+6 rows in set (0.000 sec)
+
+MariaDB [advantech]> rollback;
+Query OK, 0 rows affected (0.052 sec)
+
+MariaDB [advantech]> select * from stats;
++----+-------+--------+-------------------+
+| ID | MONTH | TEMP_F | RAIN_I            |
++----+-------+--------+-------------------+
+| 13 |     1 |   57.4 |              0.32 |
+| 13 |     7 |   91.7 |              5.16 |
+| 44 |     1 |   74.9 |               4.5 |
+| 44 |     7 |   74.9 |               4.5 |
+| 66 |     1 |    6.7 |              2.11 |
+| 66 |     7 |   65.8 | 4.529999999999999 |
++----+-------+--------+-------------------+
+6 rows in set (0.001 sec)
+
+MariaDB [advantech]> select * from stats where month=1 or month=7 or month=8;
++----+-------+--------+-------------------+
+| ID | MONTH | TEMP_F | RAIN_I            |
++----+-------+--------+-------------------+
+| 13 |     1 |   57.4 |              0.32 |
+| 13 |     7 |   91.7 |              5.16 |
+| 44 |     1 |   74.9 |               4.5 |
+| 44 |     7 |   74.9 |               4.5 |
+| 66 |     1 |    6.7 |              2.11 |
+| 66 |     7 |   65.8 | 4.529999999999999 |
++----+-------+--------+-------------------+
+6 rows in set (0.010 sec)
+
+MariaDB [advantech]> select * from stats where month in (1,7);
++----+-------+--------+-------------------+
+| ID | MONTH | TEMP_F | RAIN_I            |
++----+-------+--------+-------------------+
+| 13 |     1 |   57.4 |              0.32 |
+| 13 |     7 |   91.7 |              5.16 |
+| 44 |     1 |   74.9 |               4.5 |
+| 44 |     7 |   74.9 |               4.5 |
+| 66 |     1 |    6.7 |              2.11 |
+| 66 |     7 |   65.8 | 4.529999999999999 |
++----+-------+--------+-------------------+
+6 rows in set (0.014 sec)
+
+MariaDB [advantech]> select * from stats where month in (1,7,8);
++----+-------+--------+-------------------+
+| ID | MONTH | TEMP_F | RAIN_I            |
++----+-------+--------+-------------------+
+| 13 |     1 |   57.4 |              0.32 |
+| 13 |     7 |   91.7 |              5.16 |
+| 44 |     1 |   74.9 |               4.5 |
+| 44 |     7 |   74.9 |               4.5 |
+| 66 |     1 |    6.7 |              2.11 |
+| 66 |     7 |   65.8 | 4.529999999999999 |
++----+-------+--------+-------------------+
+6 rows in set (0.000 sec)
+
+MariaDB [advantech]> select * from stats where month not in (1,8);
++----+-------+--------+-------------------+
+| ID | MONTH | TEMP_F | RAIN_I            |
++----+-------+--------+-------------------+
+| 13 |     7 |   91.7 |              5.16 |
+| 44 |     7 |   74.9 |               4.5 |
+| 66 |     7 |   65.8 | 4.529999999999999 |
++----+-------+--------+-------------------+
+3 rows in set (0.000 sec)
+
+MariaDB [advantech]>
