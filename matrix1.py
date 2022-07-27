@@ -1,10 +1,23 @@
-matrix1=[
-    [1,2,3,4],
-    [3,2,3,6,2,3],    
-    [3,5,5,6]
-    ]
+m1=([0,0,0],[0,0,0],[0,0,0])
+m2=([0,0,0],[0,0,0],[0,0,0])
+m3=([0,0,0],[0,0,0],[0,0,0])
 
-for i in range(0,len(matrix1)):
-    for j in range(0,len(matrix1[i])):
-        print(matrix1[i][j],end=" ")#to print characters
-    print()#for new line
+print("Enter The elements for Matrix 1: ")
+for i in range(len(m1)):
+    for j in range(len(m1[i])):
+        m1[i][j]=int(input("at pos %d,%d :"%(i,j)))
+    print()
+
+    
+print("Enter The elements for Matrix 2: ")
+for i in range(len(m2)):
+    for j in range(len(m2[i])):
+        m2[i][j]=int(input("at pos %d,%d :"%(i,j)))
+        m3[i][j]=m1[i][j]+m2[i][j];
+    print()
+
+print("____________")
+print("the matrix m1")
+print(m1)
+print(m2)
+print(m3)
