@@ -1,0 +1,544 @@
+create table Employee
+(
+  eid int,
+  ename varchar(20),
+  salary decimal(10,2),
+  deptid int
+);
+
+create table Depart
+(
+    deptid int,
+    name varchar(12),
+    noemp int 
+);
+
+insert into Employee
+values
+(111,'tom',35534.34,4),
+(112,'tom2',35534.34,3),
+(113,'tom4',35534.34,3),
+(114,'tom5',35534.34,1);
+
+insert into depart
+values
+(6,'gst',10),
+(7,'eLECTRONICS',15),
+(8,'TECH',12);
+
+select * from employee,depart;
+
+
+select eid,name,ename from 
+employee inner join depart
+on employee.deptid=depart.deptid;
+
+select eid,name,ename from 
+employee e inner join depart d
+on e.deptid=d.deptid;
+
+select eid,name,ename from 
+employee e left join depart d
+on e.deptid=d.deptid;
+
+select eid,name,ename from 
+employee e right join depart d
+on e.deptid=d.deptid;
+
+select * from 
+employee inner join depart
+on employee.deptid=depart.deptid;
+
+____________________________________________________
+create view one as
+select eid,name,ename from 
+employee e right join depart d
+on e.deptid=d.deptid;
+
+
+
+select sum(noemp) from depart;
+__________________________________
+select count(eid),name,ename from 
+employee e right join depart d
+on e.deptid=d.deptid;
+_____________________________________________________
+
+Setting environment for using XAMPP for Windows.
+Admin@DESKTOP-2 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 8
+Server version: 10.4.24-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| advantech          |
+| db_college         |
+| db_school          |
+| dev                |
+| exam               |
+| information_schema |
+| life               |
+| monday             |
+| mysql              |
+| patil              |
+| performance_schema |
+| phpmyadmin         |
+| quiz_db            |
+| school             |
+| test               |
++--------------------+
+15 rows in set (0.307 sec)
+
+MariaDB [(none)]> use Patil;
+Database changed
+MariaDB [Patil]> show tables;
++-----------------+
+| Tables_in_patil |
++-----------------+
+| sirname         |
+| station         |
++-----------------+
+2 rows in set (0.001 sec)
+
+MariaDB [Patil]> slect * from Patil;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'slect * from Patil' at line 1
+MariaDB [Patil]> select *from school;
+ERROR 1146 (42S02): Table 'patil.school' doesn't exist
+MariaDB [Patil]> selct * from Patil;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'selct * from Patil' at line 1
+MariaDB [Patil]> select * from station;
++----+--------+-------+-------+--------+
+| ID | CITY   | STATE | LAT_N | LONG_W |
++----+--------+-------+-------+--------+
+| 11 | DIPESH | AN    |    21 |    112 |
+| 12 | DHANU  | GG    |    62 |    113 |
+| 13 | DHIRAJ | DD    |    33 |    111 |
++----+--------+-------+-------+--------+
+3 rows in set (0.325 sec)
+
+MariaDB [Patil]> create table Employee
+    -> (
+    ->   eid int,
+    ->   ename varchar(20),
+    ->   salary decimal(10,2),
+    ->   deptid int
+    -> );
+Query OK, 0 rows affected (0.341 sec)
+
+MariaDB [Patil]>
+MariaDB [Patil]> create table Depart
+    -> (
+    ->     deptid int,
+    ->     name varchar(12),
+    ->     noemp int
+    -> );
+Query OK, 0 rows affected (0.183 sec)
+
+MariaDB [Patil]>
+MariaDB [Patil]> insert into Employee
+    -> values
+    -> (111,'tom',35534.34,1),
+    -> (112,'tom2',35534.34,3),
+    -> (113,'tom4',35534.34,1),
+    -> (114,'tom5',35534.34,2);
+Query OK, 4 rows affected (0.067 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MariaDB [Patil]>
+MariaDB [Patil]> insert into depart
+    -> values
+    -> (1,'maths',10),
+    -> (2,'CS',15),
+    -> (3,'IT',12),
+    ->
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 5
+MariaDB [Patil]> insert into depart
+    -> values
+    -> (1,'maths',10),
+    -> (2,'CS',15),
+    -> (3,'IT',12);
+Query OK, 3 rows affected (0.063 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [Patil]> select * from employee;
++------+-------+----------+--------+
+| eid  | ename | salary   | deptid |
++------+-------+----------+--------+
+|  111 | tom   | 35534.34 |      1 |
+|  112 | tom2  | 35534.34 |      3 |
+|  113 | tom4  | 35534.34 |      1 |
+|  114 | tom5  | 35534.34 |      2 |
++------+-------+----------+--------+
+4 rows in set (0.001 sec)
+
+MariaDB [Patil]> select * from Depart;
++--------+-------+-------+
+| deptid | name  | noemp |
++--------+-------+-------+
+|      1 | maths |    10 |
+|      2 | CS    |    15 |
+|      3 | IT    |    12 |
++--------+-------+-------+
+3 rows in set (0.001 sec)
+
+MariaDB [Patil]> select * from employee,depart;
++------+-------+----------+--------+--------+-------+-------+
+| eid  | ename | salary   | deptid | deptid | name  | noemp |
++------+-------+----------+--------+--------+-------+-------+
+|  111 | tom   | 35534.34 |      1 |      1 | maths |    10 |
+|  111 | tom   | 35534.34 |      1 |      2 | CS    |    15 |
+|  111 | tom   | 35534.34 |      1 |      3 | IT    |    12 |
+|  112 | tom2  | 35534.34 |      3 |      1 | maths |    10 |
+|  112 | tom2  | 35534.34 |      3 |      2 | CS    |    15 |
+|  112 | tom2  | 35534.34 |      3 |      3 | IT    |    12 |
+|  113 | tom4  | 35534.34 |      1 |      1 | maths |    10 |
+|  113 | tom4  | 35534.34 |      1 |      2 | CS    |    15 |
+|  113 | tom4  | 35534.34 |      1 |      3 | IT    |    12 |
+|  114 | tom5  | 35534.34 |      2 |      1 | maths |    10 |
+|  114 | tom5  | 35534.34 |      2 |      2 | CS    |    15 |
+|  114 | tom5  | 35534.34 |      2 |      3 | IT    |    12 |
++------+-------+----------+--------+--------+-------+-------+
+12 rows in set (0.031 sec)
+
+MariaDB [Patil]>
+MariaDB [Patil]> select eid,name,ename from
+    -> employee inner join depart
+    -> on employee.deptid=depart.deptid;
++------+-------+-------+
+| eid  | name  | ename |
++------+-------+-------+
+|  111 | maths | tom   |
+|  112 | IT    | tom2  |
+|  113 | maths | tom4  |
+|  114 | CS    | tom5  |
++------+-------+-------+
+4 rows in set (0.106 sec)
+
+MariaDB [Patil]>
+MariaDB [Patil]> select * from
+    -> employee inner join depart
+    -> on employee.deptid=depart.deptid;
++------+-------+----------+--------+--------+-------+-------+
+| eid  | ename | salary   | deptid | deptid | name  | noemp |
++------+-------+----------+--------+--------+-------+-------+
+|  111 | tom   | 35534.34 |      1 |      1 | maths |    10 |
+|  112 | tom2  | 35534.34 |      3 |      3 | IT    |    12 |
+|  113 | tom4  | 35534.34 |      1 |      1 | maths |    10 |
+|  114 | tom5  | 35534.34 |      2 |      2 | CS    |    15 |
++------+-------+----------+--------+--------+-------+-------+
+4 rows in set (0.001 sec)
+
+MariaDB [Patil]> insert into Employee
+    -> values
+    -> (111,'tom',35534.34,4),
+    -> (112,'tom2',35534.34,3),
+    -> (113,'tom4',35534.34,3),
+    -> (114,'tom5',35534.34,1);
+Query OK, 4 rows affected (0.068 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MariaDB [Patil]>
+MariaDB [Patil]> select eid,name,ename from
+    -> employee inner join depart
+    -> on employee.deptid=depart.deptid;
++------+-------+-------+
+| eid  | name  | ename |
++------+-------+-------+
+|  111 | maths | tom   |
+|  112 | IT    | tom2  |
+|  113 | maths | tom4  |
+|  114 | CS    | tom5  |
+|  112 | IT    | tom2  |
+|  113 | IT    | tom4  |
+|  114 | maths | tom5  |
++------+-------+-------+
+7 rows in set (0.001 sec)
+
+MariaDB [Patil]>
+MariaDB [Patil]> select eid,name,ename from
+    -> employee e inner join depart d
+    -> on e.deptid=d.deptid;
++------+-------+-------+
+| eid  | name  | ename |
++------+-------+-------+
+|  111 | maths | tom   |
+|  112 | IT    | tom2  |
+|  113 | maths | tom4  |
+|  114 | CS    | tom5  |
+|  112 | IT    | tom2  |
+|  113 | IT    | tom4  |
+|  114 | maths | tom5  |
++------+-------+-------+
+7 rows in set (0.000 sec)
+
+MariaDB [Patil]> select eid,name,ename from
+    -> employee e left join depart d
+    -> on e.deptid=d.deptid;
++------+-------+-------+
+| eid  | name  | ename |
++------+-------+-------+
+|  111 | maths | tom   |
+|  113 | maths | tom4  |
+|  114 | maths | tom5  |
+|  114 | CS    | tom5  |
+|  112 | IT    | tom2  |
+|  112 | IT    | tom2  |
+|  113 | IT    | tom4  |
+|  111 | NULL  | tom   |
++------+-------+-------+
+8 rows in set (0.001 sec)
+
+MariaDB [Patil]>
+MariaDB [Patil]>
+MariaDB [Patil]> select eid,name,ename from
+    -> employee e right join depart d
+    -> on e.deptid=d.deptid;
++------+-------+-------+
+| eid  | name  | ename |
++------+-------+-------+
+|  111 | maths | tom   |
+|  112 | IT    | tom2  |
+|  113 | maths | tom4  |
+|  114 | CS    | tom5  |
+|  112 | IT    | tom2  |
+|  113 | IT    | tom4  |
+|  114 | maths | tom5  |
++------+-------+-------+
+7 rows in set (0.000 sec)
+
+MariaDB [Patil]> insert into depart
+    -> values
+    -> (6,'gst',10),
+    -> (7,'eLECTRONICS',15),
+    -> (8,'TECH',12);
+Query OK, 3 rows affected (0.065 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [Patil]> select eid,name,ename from
+    -> employee e right join depart d
+    -> on e.deptid=d.deptid;
++------+-------------+-------+
+| eid  | name        | ename |
++------+-------------+-------+
+|  111 | maths       | tom   |
+|  112 | IT          | tom2  |
+|  113 | maths       | tom4  |
+|  114 | CS          | tom5  |
+|  112 | IT          | tom2  |
+|  113 | IT          | tom4  |
+|  114 | maths       | tom5  |
+| NULL | gst         | NULL  |
+| NULL | eLECTRONICS | NULL  |
+| NULL | TECH        | NULL  |
++------+-------------+-------+
+10 rows in set (0.001 sec)
+
+MariaDB [Patil]> select * from
+    -> employee e right join depart d
+    -> on e.deptid=d.deptid;
++------+-------+----------+--------+--------+-------------+-------+
+| eid  | ename | salary   | deptid | deptid | name        | noemp |
++------+-------+----------+--------+--------+-------------+-------+
+|  111 | tom   | 35534.34 |      1 |      1 | maths       |    10 |
+|  112 | tom2  | 35534.34 |      3 |      3 | IT          |    12 |
+|  113 | tom4  | 35534.34 |      1 |      1 | maths       |    10 |
+|  114 | tom5  | 35534.34 |      2 |      2 | CS          |    15 |
+|  112 | tom2  | 35534.34 |      3 |      3 | IT          |    12 |
+|  113 | tom4  | 35534.34 |      3 |      3 | IT          |    12 |
+|  114 | tom5  | 35534.34 |      1 |      1 | maths       |    10 |
+| NULL | NULL  |     NULL |   NULL |      6 | gst         |    10 |
+| NULL | NULL  |     NULL |   NULL |      7 | eLECTRONICS |    15 |
+| NULL | NULL  |     NULL |   NULL |      8 | TECH        |    12 |
++------+-------+----------+--------+--------+-------------+-------+
+10 rows in set (0.001 sec)
+
+MariaDB [Patil]> create view one as
+    -> select eid,name,ename from
+    -> employee e right join depart d
+    -> on e.deptid=d.deptid;
+Query OK, 0 rows affected (0.112 sec)
+
+MariaDB [Patil]> select * from one;
++------+-------------+-------+
+| eid  | name        | ename |
++------+-------------+-------+
+|  111 | maths       | tom   |
+|  112 | IT          | tom2  |
+|  113 | maths       | tom4  |
+|  114 | CS          | tom5  |
+|  112 | IT          | tom2  |
+|  113 | IT          | tom4  |
+|  114 | maths       | tom5  |
+| NULL | gst         | NULL  |
+| NULL | eLECTRONICS | NULL  |
+| NULL | TECH        | NULL  |
++------+-------------+-------+
+10 rows in set (0.021 sec)
+
+MariaDB [Patil]> select * from one;
++------+-------------+-------+
+| eid  | name        | ename |
++------+-------------+-------+
+|  111 | maths       | tom   |
+|  112 | IT          | tom2  |
+|  113 | maths       | tom4  |
+|  114 | CS          | tom5  |
+|  112 | IT          | tom2  |
+|  113 | IT          | tom4  |
+|  114 | maths       | tom5  |
+| NULL | gst         | NULL  |
+| NULL | eLECTRONICS | NULL  |
+| NULL | TECH        | NULL  |
++------+-------------+-------+
+10 rows in set (0.001 sec)
+
+MariaDB [Patil]> select * from employee;
++------+-------+----------+--------+
+| eid  | ename | salary   | deptid |
++------+-------+----------+--------+
+|  111 | tom   | 35534.34 |      1 |
+|  112 | tom2  | 35534.34 |      3 |
+|  113 | tom4  | 35534.34 |      1 |
+|  114 | tom5  | 35534.34 |      2 |
+|  111 | tom   | 35534.34 |      4 |
+|  112 | tom2  | 35534.34 |      3 |
+|  113 | tom4  | 35534.34 |      3 |
+|  114 | tom5  | 35534.34 |      1 |
++------+-------+----------+--------+
+8 rows in set (0.001 sec)
+
+MariaDB [Patil]> select * from depart where name like 'a%';
+Empty set (0.067 sec)
+
+MariaDB [Patil]> select * from depart where name like '%a';
+Empty set (0.000 sec)
+
+MariaDB [Patil]> select * from depart where name like '%a%';
++--------+-------+-------+
+| deptid | name  | noemp |
++--------+-------+-------+
+|      1 | maths |    10 |
++--------+-------+-------+
+1 row in set (0.000 sec)
+
+MariaDB [Patil]> select * from depart where name like '%s';
++--------+-------------+-------+
+| deptid | name        | noemp |
++--------+-------------+-------+
+|      1 | maths       |    10 |
+|      2 | CS          |    15 |
+|      7 | eLECTRONICS |    15 |
++--------+-------------+-------+
+3 rows in set (0.000 sec)
+
+MariaDB [Patil]> select * from depart where name like 'm%';
++--------+-------+-------+
+| deptid | name  | noemp |
++--------+-------+-------+
+|      1 | maths |    10 |
++--------+-------+-------+
+1 row in set (0.000 sec)
+
+MariaDB [Patil]> select sum(noemp) from depart;
++------------+
+| sum(noemp) |
++------------+
+|         74 |
++------------+
+1 row in set (0.062 sec)
+
+MariaDB [Patil]> select * from depart;
++--------+-------------+-------+
+| deptid | name        | noemp |
++--------+-------------+-------+
+|      1 | maths       |    10 |
+|      2 | CS          |    15 |
+|      3 | IT          |    12 |
+|      6 | gst         |    10 |
+|      7 | eLECTRONICS |    15 |
+|      8 | TECH        |    12 |
++--------+-------------+-------+
+6 rows in set (0.000 sec)
+
+MariaDB [Patil]> select max(noemp) from depart;
++------------+
+| max(noemp) |
++------------+
+|         15 |
++------------+
+1 row in set (0.019 sec)
+
+MariaDB [Patil]> select min(noemp) from depart;
++------------+
+| min(noemp) |
++------------+
+|         10 |
++------------+
+1 row in set (0.000 sec)
+
+MariaDB [Patil]> select mi(noemp) from depart;
+ERROR 1305 (42000): FUNCTION patil.mi does not exist
+MariaDB [Patil]> select average(noemp) from depart;
+ERROR 1305 (42000): FUNCTION patil.average does not exist
+MariaDB [Patil]> select avg(noemp) from depart;
++------------+
+| avg(noemp) |
++------------+
+|    12.3333 |
++------------+
+1 row in set (0.001 sec)
+
+MariaDB [Patil]> select avg(noemp) as "average no of emp" from depart;
++-------------------+
+| average no of emp |
++-------------------+
+|           12.3333 |
++-------------------+
+1 row in set (0.000 sec)
+
+MariaDB [Patil]> select avgselect eid,name,ename from (noemp) as "average no of emp" from depart;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'as "average no of emp" from depart' at line 1
+MariaDB [Patil]> employee e right join depart d
+    -> on e.deptid=d.deptid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'employee e right join depart d
+on e.deptid=d.deptid' at line 1
+MariaDB [Patil]> select eid,name,ename from
+    -> employee e right join depart d
+    -> on e.deptid=d.deptid;
++------+-------------+-------+
+| eid  | name        | ename |
++------+-------------+-------+
+|  111 | maths       | tom   |
+|  112 | IT          | tom2  |
+|  113 | maths       | tom4  |
+|  114 | CS          | tom5  |
+|  112 | IT          | tom2  |
+|  113 | IT          | tom4  |
+|  114 | maths       | tom5  |
+| NULL | gst         | NULL  |
+| NULL | eLECTRONICS | NULL  |
+| NULL | TECH        | NULL  |
++------+-------------+-------+
+10 rows in set (0.001 sec)
+
+MariaDB [Patil]> select count(eid),name,ename from
+    -> employee e right join depart d
+    -> on e.deptid=d.deptid;
++------------+-------+-------+
+| count(eid) | name  | ename |
++------------+-------+-------+
+|          7 | maths | tom   |
++------------+-------+-------+
+1 row in set (0.001 sec)
+
+MariaDB [Patil]>
