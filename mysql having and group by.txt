@@ -1,0 +1,421 @@
+mysql -u root -p
+
+drop database db99;
+create database db99;
+-- https://www.datacamp.com/tutorial/group-by-having-clause-sql
+
+
+use db99;
+
+drop table CUSTOMERS;
+
+CREATE TABLE CUSTOMERS(
+   ID   INT           ,
+   NAME VARCHAR (20)   ,
+   AGE  INT           ,
+   ADDRESS  CHAR (25) ,
+   SALARY   DECIMAL (18, 2)
+);
+
+INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (111, 'tom', 23, 'Ahmedabad', 5000.00 );
+
+INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (112, 'jerry', 25, 'Delhi', 5500.00 );
+
+INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (3, 'kausal', 23, 'Kota', 2000.00 );
+
+INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (4, 'Chaitali patil', 23, 'Mumbai', 6500.00 );
+
+INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (5, 'Hritik', 27, 'Bhopal', 8500.00 );
+
+INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (6, 'Komal singh', 22, 'MP', 4500.00 );
+
+_________________________________________________________
+
+Setting environment for using XAMPP for Windows.
+Admin@DESKTOP-2 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 12
+Server version: 10.4.24-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> drop database db99;
+Query OK, 2 rows affected (0.685 sec)
+
+MariaDB [(none)]> create database db99;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> use db99;
+Database changed
+MariaDB [db99]>
+MariaDB [db99]> drop table CUSTOMERS;
+ERROR 1051 (42S02): Unknown table 'db99.customers'
+MariaDB [db99]>
+MariaDB [db99]> CREATE TABLE CUSTOMERS(
+    ->    ID   INT           ,
+    ->    NAME VARCHAR (20)   ,
+    ->    AGE  INT           ,
+    ->    ADDRESS  CHAR (25) ,
+    ->    SALARY   DECIMAL (18, 2)
+    -> );
+Query OK, 0 rows affected (0.585 sec)
+
+MariaDB [db99]>
+MariaDB [db99]> INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+    -> VALUES (1, 'Ramesh', 32, 'Ahmedabad', 2000.00 );
+Query OK, 1 row affected (0.152 sec)
+
+MariaDB [db99]>
+MariaDB [db99]> INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+    -> VALUES (2, 'Khilan', 25, 'Delhi', 1500.00 );
+Query OK, 1 row affected (0.034 sec)
+
+MariaDB [db99]>
+MariaDB [db99]> INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+    -> VALUES (3, 'kaushik', 23, 'Kota', 2000.00 );
+Query OK, 1 row affected (0.120 sec)
+
+MariaDB [db99]>
+MariaDB [db99]> INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+    -> VALUES (4, 'Chaitali', 25, 'Mumbai', 6500.00 );
+Query OK, 1 row affected (0.044 sec)
+
+MariaDB [db99]>
+MariaDB [db99]> INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+    -> VALUES (5, 'Hardik', 27, 'Bhopal', 8500.00 );
+Query OK, 1 row affected (0.033 sec)
+
+MariaDB [db99]>
+MariaDB [db99]> INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+    -> VALUES (6, 'Komal', 22, 'MP', 4500.00 );
+Query OK, 1 row affected (0.070 sec)
+
+MariaDB [db99]> select * from  customers;
++------+----------+------+-----------+---------+
+| ID   | NAME     | AGE  | ADDRESS   | SALARY  |
++------+----------+------+-----------+---------+
+|    1 | Ramesh   |   32 | Ahmedabad | 2000.00 |
+|    2 | Khilan   |   25 | Delhi     | 1500.00 |
+|    3 | kaushik  |   23 | Kota      | 2000.00 |
+|    4 | Chaitali |   25 | Mumbai    | 6500.00 |
+|    5 | Hardik   |   27 | Bhopal    | 8500.00 |
+|    6 | Komal    |   22 | MP        | 4500.00 |
++------+----------+------+-----------+---------+
+6 rows in set (0.000 sec)
+
+MariaDB [db99]> select name sum(salary) from
+    -> customers group by name;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'sum(salary) from
+customers group by name' at line 1
+MariaDB [db99]> select name sum(salary) from
+    -> customers group by name;;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'sum(salary) from
+customers group by name' at line 1
+ERROR: No query specified
+
+MariaDB [db99]> select name, sum(salary) from
+    -> customers group by name;
++----------+-------------+
+| name     | sum(salary) |
++----------+-------------+
+| Chaitali |     6500.00 |
+| Hardik   |     8500.00 |
+| kaushik  |     2000.00 |
+| Khilan   |     1500.00 |
+| Komal    |     4500.00 |
+| Ramesh   |     2000.00 |
++----------+-------------+
+6 rows in set (0.038 sec)
+
+MariaDB [db99]> select * from  customers;
++------+----------+------+-----------+---------+
+| ID   | NAME     | AGE  | ADDRESS   | SALARY  |
++------+----------+------+-----------+---------+
+|    1 | Ramesh   |   32 | Ahmedabad | 2000.00 |
+|    2 | Khilan   |   25 | Delhi     | 1500.00 |
+|    3 | kaushik  |   23 | Kota      | 2000.00 |
+|    4 | Chaitali |   25 | Mumbai    | 6500.00 |
+|    5 | Hardik   |   27 | Bhopal    | 8500.00 |
+|    6 | Komal    |   22 | MP        | 4500.00 |
++------+----------+------+-----------+---------+
+6 rows in set (0.000 sec)
+
+MariaDB [db99]> select name, sum(salary) from
+    -> customers group by name order by desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'desc' at line 2
+MariaDB [db99]> select name, sum(salary) from
+    -> customers group by name order by name desc;
++----------+-------------+
+| name     | sum(salary) |
++----------+-------------+
+| Ramesh   |     2000.00 |
+| Komal    |     4500.00 |
+| Khilan   |     1500.00 |
+| kaushik  |     2000.00 |
+| Hardik   |     8500.00 |
+| Chaitali |     6500.00 |
++----------+-------------+
+6 rows in set (0.001 sec)
+
+MariaDB [db99]> select name, sum(salary) from
+    -> customers group by name order by name asc;
++----------+-------------+
+| name     | sum(salary) |
++----------+-------------+
+| Chaitali |     6500.00 |
+| Hardik   |     8500.00 |
+| kaushik  |     2000.00 |
+| Khilan   |     1500.00 |
+| Komal    |     4500.00 |
+| Ramesh   |     2000.00 |
++----------+-------------+
+6 rows in set (0.001 sec)
+
+MariaDB [db99]> select name, sum(salary) from
+    -> customers group by name order by sum(salary) asc;
++----------+-------------+
+| name     | sum(salary) |
++----------+-------------+
+| Khilan   |     1500.00 |
+| Ramesh   |     2000.00 |
+| kaushik  |     2000.00 |
+| Komal    |     4500.00 |
+| Chaitali |     6500.00 |
+| Hardik   |     8500.00 |
++----------+-------------+
+6 rows in set (0.000 sec)
+
+MariaDB [db99]> select name, sum(salary) from
+    -> customers group by name order by sum(salary) desc;
++----------+-------------+
+| name     | sum(salary) |
++----------+-------------+
+| Hardik   |     8500.00 |
+| Chaitali |     6500.00 |
+| Komal    |     4500.00 |
+| Ramesh   |     2000.00 |
+| kaushik  |     2000.00 |
+| Khilan   |     1500.00 |
++----------+-------------+
+6 rows in set (0.001 sec)
+
+MariaDB [db99]> select name, sum(salary) from
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+MariaDB [db99]> INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+    -> VALUES (111, 'Ramesh', 32, 'Ahmedabad', 5000.00 );
+Query OK, 1 row affected (0.346 sec)
+
+MariaDB [db99]>
+MariaDB [db99]> INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+    -> VALUES (112, 'Khilan', 25, 'Delhi', 5500.00 );
+Query OK, 1 row affected (2.386 sec)
+
+MariaDB [db99]> select * from  customers;
++------+----------+------+-----------+---------+
+| ID   | NAME     | AGE  | ADDRESS   | SALARY  |
++------+----------+------+-----------+---------+
+|    1 | Ramesh   |   32 | Ahmedabad | 2000.00 |
+|    2 | Khilan   |   25 | Delhi     | 1500.00 |
+|    3 | kaushik  |   23 | Kota      | 2000.00 |
+|    4 | Chaitali |   25 | Mumbai    | 6500.00 |
+|    5 | Hardik   |   27 | Bhopal    | 8500.00 |
+|    6 | Komal    |   22 | MP        | 4500.00 |
+|  111 | Ramesh   |   32 | Ahmedabad | 5000.00 |
+|  112 | Khilan   |   25 | Delhi     | 5500.00 |
++------+----------+------+-----------+---------+
+8 rows in set (0.000 sec)
+
+MariaDB [db99]> select name, sum(salary) from
+    -> customers group by name;
++----------+-------------+
+| name     | sum(salary) |
++----------+-------------+
+| Chaitali |     6500.00 |
+| Hardik   |     8500.00 |
+| kaushik  |     2000.00 |
+| Khilan   |     7000.00 |
+| Komal    |     4500.00 |
+| Ramesh   |     7000.00 |
++----------+-------------+
+6 rows in set (0.013 sec)
+
+MariaDB [db99]> select name, sum(salary) from
+    -> customers;
++--------+-------------+
+| name   | sum(salary) |
++--------+-------------+
+| Ramesh |    35500.00 |
++--------+-------------+
+1 row in set (0.028 sec)
+
+MariaDB [db99]> select name, sum(salary) from
+    -> customers group by address;
++----------+-------------+
+| name     | sum(salary) |
++----------+-------------+
+| Ramesh   |     7000.00 |
+| Hardik   |     8500.00 |
+| Khilan   |     7000.00 |
+| kaushik  |     2000.00 |
+| Komal    |     4500.00 |
+| Chaitali |     6500.00 |
++----------+-------------+
+6 rows in set (0.001 sec)
+
+MariaDB [db99]> select name,address, sum(salary) from
+    -> customers group by address;
++----------+-----------+-------------+
+| name     | address   | sum(salary) |
++----------+-----------+-------------+
+| Ramesh   | Ahmedabad |     7000.00 |
+| Hardik   | Bhopal    |     8500.00 |
+| Khilan   | Delhi     |     7000.00 |
+| kaushik  | Kota      |     2000.00 |
+| Komal    | MP        |     4500.00 |
+| Chaitali | Mumbai    |     6500.00 |
++----------+-----------+-------------+
+6 rows in set (0.000 sec)
+
+MariaDB [db99]>
+MariaDB [db99]> INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+    -> VALUES (111, 'tom', 23, 'Ahmedabad', 5000.00 );
+Query OK, 1 row affected (0.049 sec)
+
+MariaDB [db99]>
+MariaDB [db99]> INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+    -> VALUES (112, 'jerry', 25, 'Delhi', 5500.00 );
+Query OK, 1 row affected (0.097 sec)
+
+MariaDB [db99]>
+MariaDB [db99]> INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+    -> VALUES (3, 'kausal', 23, 'Kota', 2000.00 );
+Query OK, 1 row affected (0.061 sec)
+
+MariaDB [db99]>
+MariaDB [db99]> INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+    -> VALUES (4, 'Chaitali patil', 23, 'Mumbai', 6500.00 );
+Query OK, 1 row affected (0.028 sec)
+
+MariaDB [db99]>
+MariaDB [db99]> INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+    -> VALUES (5, 'Hritik', 27, 'Bhopal', 8500.00 );
+Query OK, 1 row affected (0.028 sec)
+
+MariaDB [db99]>
+MariaDB [db99]> INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+    -> VALUES (6, 'Komal singh', 22, 'MP', 4500.00 );
+Query OK, 1 row affected (0.029 sec)
+
+MariaDB [db99]> select * from customers;
++------+----------------+------+-----------+---------+
+| ID   | NAME           | AGE  | ADDRESS   | SALARY  |
++------+----------------+------+-----------+---------+
+|    1 | Ramesh         |   32 | Ahmedabad | 2000.00 |
+|    2 | Khilan         |   25 | Delhi     | 1500.00 |
+|    3 | kaushik        |   23 | Kota      | 2000.00 |
+|    4 | Chaitali       |   25 | Mumbai    | 6500.00 |
+|    5 | Hardik         |   27 | Bhopal    | 8500.00 |
+|    6 | Komal          |   22 | MP        | 4500.00 |
+|  111 | Ramesh         |   32 | Ahmedabad | 5000.00 |
+|  112 | Khilan         |   25 | Delhi     | 5500.00 |
+|  111 | tom            |   23 | Ahmedabad | 5000.00 |
+|  112 | jerry          |   25 | Delhi     | 5500.00 |
+|    3 | kausal         |   23 | Kota      | 2000.00 |
+|    4 | Chaitali patil |   23 | Mumbai    | 6500.00 |
+|    5 | Hritik         |   27 | Bhopal    | 8500.00 |
+|    6 | Komal singh    |   22 | MP        | 4500.00 |
++------+----------------+------+-----------+---------+
+14 rows in set (0.000 sec)
+
+MariaDB [db99]> select * from customers
+    -> group by age;
++------+---------+------+-----------+---------+
+| ID   | NAME    | AGE  | ADDRESS   | SALARY  |
++------+---------+------+-----------+---------+
+|    6 | Komal   |   22 | MP        | 4500.00 |
+|    3 | kaushik |   23 | Kota      | 2000.00 |
+|    2 | Khilan  |   25 | Delhi     | 1500.00 |
+|    5 | Hardik  |   27 | Bhopal    | 8500.00 |
+|    1 | Ramesh  |   32 | Ahmedabad | 2000.00 |
++------+---------+------+-----------+---------+
+5 rows in set (0.001 sec)
+
+MariaDB [db99]> select * from customers
+    -> group by age
+    -> having count(age)>=3;
++------+---------+------+---------+---------+
+| ID   | NAME    | AGE  | ADDRESS | SALARY  |
++------+---------+------+---------+---------+
+|    3 | kaushik |   23 | Kota    | 2000.00 |
+|    2 | Khilan  |   25 | Delhi   | 1500.00 |
++------+---------+------+---------+---------+
+2 rows in set (0.086 sec)
+
+MariaDB [db99]> select * from customers
+    -> group by age
+    -> having count(age)>=2;
++------+---------+------+-----------+---------+
+| ID   | NAME    | AGE  | ADDRESS   | SALARY  |
++------+---------+------+-----------+---------+
+|    6 | Komal   |   22 | MP        | 4500.00 |
+|    3 | kaushik |   23 | Kota      | 2000.00 |
+|    2 | Khilan  |   25 | Delhi     | 1500.00 |
+|    5 | Hardik  |   27 | Bhopal    | 8500.00 |
+|    1 | Ramesh  |   32 | Ahmedabad | 2000.00 |
++------+---------+------+-----------+---------+
+5 rows in set (0.001 sec)
+
+MariaDB [db99]> select *,count(age) from customers
+    -> group by age
+    -> having count(age)>=2;
++------+---------+------+-----------+---------+------------+
+| ID   | NAME    | AGE  | ADDRESS   | SALARY  | count(age) |
++------+---------+------+-----------+---------+------------+
+|    6 | Komal   |   22 | MP        | 4500.00 |          2 |
+|    3 | kaushik |   23 | Kota      | 2000.00 |          4 |
+|    2 | Khilan  |   25 | Delhi     | 1500.00 |          4 |
+|    5 | Hardik  |   27 | Bhopal    | 8500.00 |          2 |
+|    1 | Ramesh  |   32 | Ahmedabad | 2000.00 |          2 |
++------+---------+------+-----------+---------+------------+
+5 rows in set (0.001 sec)
+
+MariaDB [db99]> select * from customers
+    -> group by age
+    -> having count(age)>=3;
++------+---------+------+---------+---------+
+| ID   | NAME    | AGE  | ADDRESS | SALARY  |
++------+---------+------+---------+---------+
+|    3 | kaushik |   23 | Kota    | 2000.00 |
+|    2 | Khilan  |   25 | Delhi   | 1500.00 |
++------+---------+------+---------+---------+
+2 rows in set (0.001 sec)
+
+MariaDB [db99]> select * from customers
+    -> group by age
+    -> having count(age)>=4;
++------+---------+------+---------+---------+
+| ID   | NAME    | AGE  | ADDRESS | SALARY  |
++------+---------+------+---------+---------+
+|    3 | kaushik |   23 | Kota    | 2000.00 |
+|    2 | Khilan  |   25 | Delhi   | 1500.00 |
++------+---------+------+---------+---------+
+2 rows in set (0.002 sec)
+
+MariaDB [db99]> select * from customers
+    -> group by age
+    -> having count(age)>=5;\
+Empty set (0.001 sec)
+
+MariaDB [db99]> ]
+
